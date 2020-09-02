@@ -32,6 +32,7 @@ final class RunStaticAnalysisAgainstMutantTest extends TestCase
     private Mutant $mutantWithValidCode;
     private Mutant $mutantWithInvalidCode;
     private Mutant $mutantWithValidCodeReferencingProjectFiles;
+    private Mutant $mutantWithValidCodeReferencingReflectionApi;
 
     protected function setUp(): void
     {
@@ -71,13 +72,24 @@ function add(array $input): int {
 }
 PHP;
 
-        $validCodePath                        = tempnam(sys_get_temp_dir(), 'valid-code-');
-        $invalidCodePath                      = tempnam(sys_get_temp_dir(), 'invalid-code-');
-        $validCodeReferencingProjectFilesPath = tempnam(sys_get_temp_dir(), 'valid-code-referencing-project-files-');
+        $validCodeReferencingReflectionApi = <<<'PHP'
+<?php
+
+function hasMethod(object $input, string $method): bool {
+    return (new ReflectionClass($input))
+        ->hasMethod($method);
+}
+PHP;
+
+        $validCodePath                         = tempnam(sys_get_temp_dir(), 'valid-code-');
+        $invalidCodePath                       = tempnam(sys_get_temp_dir(), 'invalid-code-');
+        $validCodeReferencingProjectFilesPath  = tempnam(sys_get_temp_dir(), 'valid-code-referencing-project-files-');
+        $validCodeReferencingReflectionApiPath = tempnam(sys_get_temp_dir(), 'valid-code-referencing-reflection-api-');
 
         file_put_contents($validCodePath, $validCode);
         file_put_contents($invalidCodePath, $invalidCode);
         file_put_contents($validCodeReferencingProjectFilesPath, $validCodeReferencingProjectFiles);
+        file_put_contents($validCodeReferencingReflectionApiPath, $validCodeReferencingReflectionApi);
 
         $mutationAttributes = array_combine(
             MutationAttributeKeys::ALL,
@@ -135,6 +147,23 @@ PHP;
             ''
         );
 
+        $this->mutantWithValidCodeReferencingReflectionApi = new Mutant(
+            $validCodeReferencingReflectionApiPath,
+            new Mutation(
+                'foo',
+                [],
+                'Plus',
+                $mutationAttributes,
+                '',
+                MutatedNode::wrap([]),
+                0,
+                []
+            ),
+            $validCodeReferencingProjectFiles,
+            '',
+            ''
+        );
+
         if (! defined('PSALM_VERSION')) {
             define('PSALM_VERSION', Versions::getVersion('vimeo/psalm'));
         }
@@ -151,6 +180,7 @@ PHP;
         unlink($this->mutantWithValidCode->getFilePath());
         unlink($this->mutantWithInvalidCode->getFilePath());
         unlink($this->mutantWithValidCodeReferencingProjectFiles->getFilePath());
+        unlink($this->mutantWithValidCodeReferencingReflectionApi->getFilePath());
 
         parent::tearDown();
     }
@@ -199,7 +229,23 @@ PHP;
 
         self::assertTrue(
             (new RunStaticAnalysisAgainstMutant($psalmConfig))
-                ->isMutantStillValidAccordingToStaticAnalysis($this->mutantWithValidCode)
+                ->isMutantStillValidAccordingToStaticAnalysis($this->mutantWithValidCodeReferencingProjectFiles)
+        );
+    }
+
+    public function testWillConsiderMutantReferencingReflectionApiAsValid(): void
+    {
+        $psalmConfig = Config::getConfigForPath(
+            self::PSALM_WORKING_DIRECTORY,
+            self::PSALM_WORKING_DIRECTORY,
+            Report::TYPE_CONSOLE
+        );
+
+        $psalmConfig->setIncludeCollector(new IncludeCollector());
+
+        self::assertTrue(
+            (new RunStaticAnalysisAgainstMutant($psalmConfig))
+                ->isMutantStillValidAccordingToStaticAnalysis($this->mutantWithValidCodeReferencingReflectionApi)
         );
     }
 }
