@@ -11,8 +11,13 @@ use Infection\PhpParser\MutatedNode;
 use PackageVersions\Versions;
 use PHPUnit\Framework\TestCase;
 use Psalm\Config;
+use Psalm\Internal\Analyzer\ProjectAnalyzer;
 use Psalm\Internal\IncludeCollector;
+use Psalm\Internal\Provider\FileProvider;
+use Psalm\Internal\Provider\Providers;
+use Psalm\Internal\RuntimeCaches;
 use Psalm\Report;
+use Psalm\Report\ReportOptions;
 use Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant;
 
 use function array_combine;
@@ -28,11 +33,11 @@ use function unlink;
 final class RunStaticAnalysisAgainstMutantTest extends TestCase
 {
     private const PSALM_WORKING_DIRECTORY = __DIR__ . '/../../../../..';
-
     private Mutant $mutantWithValidCode;
     private Mutant $mutantWithInvalidCode;
     private Mutant $mutantWithValidCodeReferencingProjectFiles;
     private Mutant $mutantWithValidCodeReferencingReflectionApi;
+    private RunStaticAnalysisAgainstMutant $runStaticAnalysis;
 
     protected function setUp(): void
     {
@@ -168,11 +173,27 @@ PHP;
             define('PSALM_VERSION', Versions::getVersion('vimeo/psalm'));
         }
 
-        if (defined('PHP_PARSER_VERSION')) {
-            return;
+        if (! defined('PHP_PARSER_VERSION')) {
+            define('PHP_PARSER_VERSION', Versions::getVersion('nikic/php-parser'));
         }
 
-        define('PHP_PARSER_VERSION', Versions::getVersion('nikic/php-parser'));
+        $this->runStaticAnalysis = new RunStaticAnalysisAgainstMutant(static function (): ProjectAnalyzer {
+            RuntimeCaches::clearAll();
+
+            $config = Config::getConfigForPath(
+                self::PSALM_WORKING_DIRECTORY,
+                self::PSALM_WORKING_DIRECTORY,
+                Report::TYPE_CONSOLE
+            );
+
+            $config->setIncludeCollector(new IncludeCollector());
+
+            return new ProjectAnalyzer(
+                $config,
+                new Providers(new FileProvider()),
+                new ReportOptions()
+            );
+        });
     }
 
     protected function tearDown(): void
@@ -195,10 +216,7 @@ PHP;
 
         $psalmConfig->setIncludeCollector(new IncludeCollector());
 
-        self::assertTrue(
-            (new RunStaticAnalysisAgainstMutant($psalmConfig))
-              ->isMutantStillValidAccordingToStaticAnalysis($this->mutantWithValidCode)
-        );
+        self::assertTrue($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($this->mutantWithValidCode));
     }
 
     public function testWillConsiderMutantInvalidIfErrorsAreDetectedByStaticAnalysis(): void
@@ -211,10 +229,7 @@ PHP;
 
         $psalmConfig->setIncludeCollector(new IncludeCollector());
 
-        self::assertFalse(
-            (new RunStaticAnalysisAgainstMutant($psalmConfig))
-                ->isMutantStillValidAccordingToStaticAnalysis($this->mutantWithInvalidCode)
-        );
+        self::assertFalse($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($this->mutantWithInvalidCode));
     }
 
     public function testWillConsiderMutantReferencingProjectFilesAsValid(): void
@@ -227,10 +242,7 @@ PHP;
 
         $psalmConfig->setIncludeCollector(new IncludeCollector());
 
-        self::assertTrue(
-            (new RunStaticAnalysisAgainstMutant($psalmConfig))
-                ->isMutantStillValidAccordingToStaticAnalysis($this->mutantWithValidCodeReferencingProjectFiles)
-        );
+        self::assertTrue($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($this->mutantWithValidCodeReferencingProjectFiles));
     }
 
     public function testWillConsiderMutantReferencingReflectionApiAsValid(): void
@@ -243,9 +255,6 @@ PHP;
 
         $psalmConfig->setIncludeCollector(new IncludeCollector());
 
-        self::assertTrue(
-            (new RunStaticAnalysisAgainstMutant($psalmConfig))
-                ->isMutantStillValidAccordingToStaticAnalysis($this->mutantWithValidCodeReferencingReflectionApi)
-        );
+        self::assertTrue($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($this->mutantWithValidCodeReferencingReflectionApi));
     }
 }

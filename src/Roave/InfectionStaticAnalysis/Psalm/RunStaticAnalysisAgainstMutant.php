@@ -5,11 +5,7 @@ declare(strict_types=1);
 namespace Roave\InfectionStaticAnalysis\Psalm;
 
 use Infection\Mutant\Mutant;
-use Psalm\Config;
 use Psalm\Internal\Analyzer\ProjectAnalyzer;
-use Psalm\Internal\Provider\FileProvider;
-use Psalm\Internal\Provider\Providers;
-use Psalm\Report\ReportOptions;
 
 use function array_key_exists;
 
@@ -20,21 +16,26 @@ use function array_key_exists;
  */
 class RunStaticAnalysisAgainstMutant
 {
-    private Config $config;
+    /** @var callable(): ProjectAnalyzer */
+    private $makeFreshAnalyzer;
 
-    public function __construct(Config $config)
+    /**
+     * Psalm has a lot of state in it, so we need a "fresh psalm" at each analysis - that's why
+     * a callable factory is injected
+     *
+     * @see https://github.com/vimeo/psalm/issues/4117
+     *
+     * @param callable(): ProjectAnalyzer $makeFreshAnalyzer
+     */
+    public function __construct(callable $makeFreshAnalyzer)
     {
-        $this->config = $config;
+        $this->makeFreshAnalyzer = $makeFreshAnalyzer;
     }
 
     public function isMutantStillValidAccordingToStaticAnalysis(Mutant $mutant): bool
     {
         $path            = $mutant->getFilePath();
-        $projectAnalyzer = new ProjectAnalyzer(
-            $this->config,
-            new Providers(new FileProvider()),
-            new ReportOptions()
-        );
+        $projectAnalyzer = ($this->makeFreshAnalyzer)();
 
         $projectAnalyzer->checkFile($path);
 

@@ -9,8 +9,13 @@ use Infection\Console\Application;
 use Infection\Container;
 use PackageVersions\Versions;
 use Psalm\Config;
+use Psalm\Internal\Analyzer\ProjectAnalyzer;
 use Psalm\Internal\IncludeCollector;
+use Psalm\Internal\Provider\FileProvider;
+use Psalm\Internal\Provider\Providers;
+use Psalm\Internal\RuntimeCaches;
 use Psalm\Report;
+use Psalm\Report\ReportOptions;
 use Roave\InfectionStaticAnalysis\Bootstrapper;
 use Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant;
 use function define;
@@ -32,13 +37,23 @@ use function getcwd;
         define('PHP_PARSER_VERSION', Versions::getVersion('nikic/php-parser'));
     }
 
-    $psalmConfig = Config::getConfigForPath($cwd, $cwd, Report::TYPE_CONSOLE);
+    $makeAnalyzer = static function () use ($cwd): ProjectAnalyzer {
+        RuntimeCaches::clearAll();
 
-    $psalmConfig->setIncludeCollector(new IncludeCollector());
+        $config = Config::getConfigForPath($cwd, $cwd, Report::TYPE_CONSOLE);
+
+        $config->setIncludeCollector(new IncludeCollector());
+
+        return new ProjectAnalyzer(
+            $config,
+            new Providers(new FileProvider()),
+            new ReportOptions()
+        );
+    };
 
     (new Application(Bootstrapper::bootstrap(
         Container::create(),
-        new RunStaticAnalysisAgainstMutant($psalmConfig)
+        new RunStaticAnalysisAgainstMutant($makeAnalyzer)
     )))
         ->run();
 })();
