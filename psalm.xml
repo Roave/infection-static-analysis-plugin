@@ -59,5 +59,12 @@
                 <directory name="test"/>
             </errorLevel>
         </PropertyNotSetInConstructor>
+
+        <!-- composer/package-versions-deprecated is in use by design -->
+        <DeprecatedClass>
+            <errorLevel type="suppress">
+                <referencedClass name="PackageVersions\Versions"/>
+            </errorLevel>
+        </DeprecatedClass>
     </issueHandlers>
 </psalm>
