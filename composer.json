@@ -1,0 +1,19 @@
+{
+    "name": "roave/infection-static-analysis-plugin",
+    "description": "Static analysis on top of mutation testing - prevents escaped mutants from being invalid according to static analysis",
+    "type": "library",
+    "require": {
+        "infection/infection": "0.17.5",
+        "vimeo/psalm": "^3.15.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.2.6"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marco Pivetta",
+            "email": "ocramius@gmail.com"
+        }
+    ]
+}
