@@ -11,9 +11,9 @@ use Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant;
 use Roave\InfectionStaticAnalysis\RunStaticAnalysisAgainstEscapedMutant;
 
 /**
- * @covers \Roave\InfectionStaticAnalysis\Bootstrapper
- *
  * @uses \Roave\InfectionStaticAnalysis\RunStaticAnalysisAgainstEscapedMutant
+ *
+ * @covers \Roave\InfectionStaticAnalysis\Bootstrapper
  */
 final class BootstrapperTest extends TestCase
 {

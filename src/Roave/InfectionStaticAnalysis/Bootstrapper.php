@@ -20,20 +20,15 @@ final class Bootstrapper
 
         // @TODO we may want to make this one lazy, but for now this is OK
         $replacedService = $container->getMutantExecutionResultFactory();
+        $factory         = static function () use ($replacedService, $runStaticAnalysis): MutantExecutionResultFactory {
+            return new RunStaticAnalysisAgainstEscapedMutant(
+                $replacedService,
+                $runStaticAnalysis
+            );
+        };
 
         $reflectionOffsetSet->setAccessible(true);
-        $reflectionOffsetSet->invokeArgs(
-            $container,
-            [
-                MutantExecutionResultFactory::class,
-                static function () use ($replacedService, $runStaticAnalysis): MutantExecutionResultFactory {
-                    return new RunStaticAnalysisAgainstEscapedMutant(
-                        $replacedService,
-                        $runStaticAnalysis
-                    );
-                }
-            ]
-        );
+        $reflectionOffsetSet->invokeArgs($container, [MutantExecutionResultFactory::class, $factory]);
 
         return $container;
     }

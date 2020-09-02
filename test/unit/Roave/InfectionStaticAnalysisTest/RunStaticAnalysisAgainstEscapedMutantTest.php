@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
 use Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant;
 use Roave\InfectionStaticAnalysis\RunStaticAnalysisAgainstEscapedMutant;
 use Symfony\Component\Process\Process;
+
 use function array_combine;
 use function array_map;
 
@@ -55,7 +56,7 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
             ''
         );
 
-        $this->process = new MutantProcess(new Process(['echo', 'hi']), $this->mutant);
+        $this->process        = new MutantProcess(new Process(['echo', 'hi']), $this->mutant);
         $this->staticAnalysis = $this->createMock(RunStaticAnalysisAgainstMutant::class);
         $this->nextFactory    = $this->createMock(MutantExecutionResultFactory::class);
         $this->factory        = new RunStaticAnalysisAgainstEscapedMutant($this->nextFactory, $this->staticAnalysis);

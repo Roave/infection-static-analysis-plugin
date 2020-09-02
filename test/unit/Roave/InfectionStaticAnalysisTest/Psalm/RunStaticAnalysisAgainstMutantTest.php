@@ -14,6 +14,7 @@ use Psalm\Config;
 use Psalm\Internal\IncludeCollector;
 use Psalm\Report;
 use Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant;
+
 use function array_combine;
 use function array_map;
 use function define;
@@ -70,8 +71,8 @@ function add(array $input): int {
 }
 PHP;
 
-        $validCodePath = tempnam(sys_get_temp_dir(), 'valid-code-');
-        $invalidCodePath = tempnam(sys_get_temp_dir(), 'invalid-code-');
+        $validCodePath                        = tempnam(sys_get_temp_dir(), 'valid-code-');
+        $invalidCodePath                      = tempnam(sys_get_temp_dir(), 'invalid-code-');
         $validCodeReferencingProjectFilesPath = tempnam(sys_get_temp_dir(), 'valid-code-referencing-project-files-');
 
         file_put_contents($validCodePath, $validCode);
@@ -138,9 +139,11 @@ PHP;
             define('PSALM_VERSION', Versions::getVersion('vimeo/psalm'));
         }
 
-        if (! defined('PHP_PARSER_VERSION')) {
-            define('PHP_PARSER_VERSION', Versions::getVersion('nikic/php-parser'));
+        if (defined('PHP_PARSER_VERSION')) {
+            return;
         }
+
+        define('PHP_PARSER_VERSION', Versions::getVersion('nikic/php-parser'));
     }
 
     protected function tearDown(): void

@@ -12,6 +12,7 @@ use Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant;
 
 /**
  * @internal
+ *
  * @final not explicitly final because there is no interface for {@see MutantExecutionResultFactory}
  */
 class RunStaticAnalysisAgainstEscapedMutant extends MutantExecutionResultFactory

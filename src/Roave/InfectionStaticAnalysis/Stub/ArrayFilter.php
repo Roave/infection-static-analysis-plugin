@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Roave\InfectionStaticAnalysis\Stub;
 
+use function array_values;
+
 /** @internal this class only exists for self-testing purposes, to verify if the mutation testing plugin works */
 final class ArrayFilter
 {

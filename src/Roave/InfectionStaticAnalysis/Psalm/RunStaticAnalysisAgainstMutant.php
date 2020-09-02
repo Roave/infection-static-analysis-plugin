@@ -10,10 +10,12 @@ use Psalm\Internal\Analyzer\ProjectAnalyzer;
 use Psalm\Internal\Provider\FileProvider;
 use Psalm\Internal\Provider\Providers;
 use Psalm\Report\ReportOptions;
+
 use function array_key_exists;
 
 /**
  * @internal
+ *
  * @final not explicitly final because we don't yet have a uniform API for this type of analysis
  */
 class RunStaticAnalysisAgainstMutant
