@@ -2,15 +2,6 @@
     "name": "roave/infection-static-analysis-plugin",
     "description": "Static analysis on top of mutation testing - prevents escaped mutants from being invalid according to static analysis",
     "type": "library",
-    "require": {
-        "php": "^7.4.7",
-        "infection/infection": "0.17.5",
-        "vimeo/psalm": "^3.15.0"
-    },
-    "require-dev": {
-        "doctrine/coding-standard": "^8.1.0",
-        "phpunit/phpunit": "^9.2.6"
-    },
     "license": "MIT",
     "authors": [
         {
@@ -18,6 +9,29 @@
             "email": "ocramius@gmail.com"
         }
     ],
+    "bin": [
+        "bin/roave-infection-static-analysis-plugin"
+    ],
+    "require": {
+        "php": "^7.4.7",
+        "infection/infection": "0.17.5",
+        "ocramius/package-versions": "^1.9.0 || ^2.0.0",
+        "vimeo/psalm": "^3.15.0"
+    },
+    "require-dev": {
+        "doctrine/coding-standard": "^8.1.0",
+        "phpunit/phpunit": "^9.2.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Roave\\InfectionStaticAnalysis\\": "src/Roave/InfectionStaticAnalysis"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Roave\\InfectionStaticAnalysisTest\\": "test/unit/Roave/InfectionStaticAnalysisTest"
+        }
+    },
     "config": {
         "sort-packages": true
     }
