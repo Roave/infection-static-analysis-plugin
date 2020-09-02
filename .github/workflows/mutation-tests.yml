@@ -57,9 +57,11 @@ jobs:
       - name: "Checkout current HEAD as a named ref"
         run: "git checkout -b ci-run-branch"
 
-      - name: "Infection"
-        run: "vendor/bin/infection"
+      - name: "Infection should fail (MSI threshold not reached)"
+        run: "! vendor/bin/infection"
+
+      - name: "Infection + roave infection plugin (mutants squished by static analysis)"
+        run: "bin/roave-infection-static-analysis-plugin"
         env:
           INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
-

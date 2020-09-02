@@ -35,7 +35,7 @@ class RunStaticAnalysisAgainstEscapedMutant extends MutantExecutionResultFactory
             return $result;
         }
 
-        if ($this->runStaticAnalysis->__invoke($mutantProcess->getMutant())) {
+        if ($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($mutantProcess->getMutant())) {
             return $result;
         }
 

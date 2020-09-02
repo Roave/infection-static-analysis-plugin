@@ -10,12 +10,11 @@ use Psalm\Internal\Analyzer\ProjectAnalyzer;
 use Psalm\Internal\Provider\FileProvider;
 use Psalm\Internal\Provider\Providers;
 use Psalm\Report\ReportOptions;
+use function array_key_exists;
 
 /**
  * @internal
  * @final not explicitly final because we don't yet have a uniform API for this type of analysis
- *
- * @TODO careful: need to check how stateful this code really is
  */
 class RunStaticAnalysisAgainstMutant
 {
@@ -26,24 +25,22 @@ class RunStaticAnalysisAgainstMutant
         $this->config = $config;
     }
 
-    /** @return bool whether the mutation is considered valid by static analysis */
-    public function __invoke(
-        Mutant $mutant
-    ): bool {
-        $path = $mutant->getFilePath();
+    public function isMutantStillValidAccordingToStaticAnalysis(Mutant $mutant): bool
+    {
+        $path            = $mutant->getFilePath();
         $projectAnalyzer = new ProjectAnalyzer(
             $this->config,
             new Providers(new FileProvider()),
             new ReportOptions()
         );
 
-        $this->config->visitComposerAutoloadFiles($projectAnalyzer);
         $projectAnalyzer->checkFile($path);
 
-        return ! count(
+        return ! array_key_exists(
+            $path,
             $projectAnalyzer->getCodebase()
                 ->file_reference_provider
-                ->getExistingIssues()[$path] ?? []
+                ->getExistingIssues()
         );
     }
 }
