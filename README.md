@@ -3,12 +3,23 @@
 This plugin is designed to run static analysis on top of [`infection/infection`](https://github.com/infection/infection)
 test runs in order to discover if [escaped mutants](https://en.wikipedia.org/wiki/Mutation_testing)
 are valid mutations, or if they do not respect the type signature of your
-program.
+program. If the mutation would result in a type error, it is "killed".
 
+TL;DR:
+ - This will improve your mutation score, since mutations which result in
+   type errors become killed.
+ - This is very hacky, and replaces `vendor/bin/infection` essentially.
+   Please read the `Stability` section below first for details.
+ - This is currently much slower than running infection by itself.
+   There are ideas/suggestions to improve this in the future.
+ 
 ## Usage
 
+The current design of this tool requires you to run `vendor/bin/roave-infection-static-analysis-plugin`
+instead of running `vendor/bin/infection`:
+
 ```sh
-composer require roave/infection-static-analysis-plugin
+composer require --dev roave/infection-static-analysis-plugin
 
 vendor/bin/roave-infection-static-analysis-plugin
 ```
