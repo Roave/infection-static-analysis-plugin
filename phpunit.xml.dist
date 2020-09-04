@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+    bootstrap="./vendor/autoload.php"
+    beStrictAboutCoversAnnotation="true"
+    beStrictAboutResourceUsageDuringSmallTests="true"
+    beStrictAboutChangesToGlobalState="true"
+    beStrictAboutOutputDuringTests="true"
+    beStrictAboutTodoAnnotatedTests="true"
+    executionOrder="random"
+>
+    <testsuites>
+        <testsuite name="Roave\InfectionStaticAnalysis tests">
+            <directory>./test/unit</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./src</directory>
+        </whitelist>
+    </filter>
+</phpunit>

@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<psalm
+    xmlns="https://getpsalm.org/schema/config"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    name="Example Psalm config with recommended defaults"
+    totallyTyped="true"
+    allowPhpStormGenerics="true"
+>
+    <projectFiles>
+        <directory name="bin"/>
+        <directory name="src"/>
+        <directory name="test"/>
+    </projectFiles>
+
+    <issueHandlers>
+        <!--
+        we do a loooooooot of kinky stuff with infection's internals: that's by "design",
+        but no way around it for now.
+        -->
+        <InternalClass errorLevel="suppress"/>
+        <InternalMethod errorLevel="suppress"/>
+        <!--
+        we extend from infection internals, because upstream has no interfaces for
+        some symbols.
+        -->
+        <InvalidExtendClass errorLevel="suppress"/>
+
+        <MethodSignatureMismatch>
+            <errorLevel type="suppress">
+                <!-- some methods are considered "final" (via annotations), but we override them -->
+                <file name="src/Roave/InfectionStaticAnalysis/RunStaticAnalysisAgainstEscapedMutant.php"/>
+            </errorLevel>
+        </MethodSignatureMismatch>
+
+        <MissingImmutableAnnotation>
+            <errorLevel type="suppress">
+                <!-- some methods are considered "immutable", but we override them -->
+                <file name="src/Roave/InfectionStaticAnalysis/RunStaticAnalysisAgainstEscapedMutant.php"/>
+            </errorLevel>
+        </MissingImmutableAnnotation>
+
+        <ConstructorSignatureMismatch>
+            <errorLevel type="suppress">
+                <!-- we extend some classes to be type-compatible, but override everything (including ctor) -->
+                <file name="src/Roave/InfectionStaticAnalysis/RunStaticAnalysisAgainstEscapedMutant.php"/>
+            </errorLevel>
+        </ConstructorSignatureMismatch>
+
+        <ImplementedParamTypeMismatch>
+            <errorLevel type="suppress">
+                <!-- we extend some classes to be type-compatible, but override everything -->
+                <file name="src/Roave/InfectionStaticAnalysis/RunStaticAnalysisAgainstEscapedMutant.php"/>
+            </errorLevel>
+        </ImplementedParamTypeMismatch>
+
+        <!-- phpunit tests are quite wonky - this is to be fixed in newer phpunit versions -->
+        <PropertyNotSetInConstructor>
+            <errorLevel type="suppress">
+                <directory name="test"/>
+            </errorLevel>
+        </PropertyNotSetInConstructor>
+
+        <!-- composer/package-versions-deprecated is in use by design -->
+        <DeprecatedClass>
+            <errorLevel type="suppress">
+                <referencedClass name="PackageVersions\Versions"/>
+            </errorLevel>
+        </DeprecatedClass>
+    </issueHandlers>
+</psalm>

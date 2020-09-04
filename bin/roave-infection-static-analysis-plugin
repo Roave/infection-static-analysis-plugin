@@ -1,0 +1,59 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+namespace Roave\InfectionStaticAnalysis\Application;
+
+use Infection\Console\Application;
+use Infection\Container;
+use PackageVersions\Versions;
+use Psalm\Config;
+use Psalm\Internal\Analyzer\ProjectAnalyzer;
+use Psalm\Internal\IncludeCollector;
+use Psalm\Internal\Provider\FileProvider;
+use Psalm\Internal\Provider\Providers;
+use Psalm\Internal\RuntimeCaches;
+use Psalm\Report;
+use Psalm\Report\ReportOptions;
+use Roave\InfectionStaticAnalysis\Bootstrapper;
+use Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant;
+use function define;
+use function defined;
+use function getcwd;
+
+(static function (): void {
+    $cwd = getcwd();
+
+    (static function () use ($cwd): void {
+        require_once $cwd . '/vendor/autoload.php';
+    })();
+
+    if (! defined('PSALM_VERSION')) {
+        define('PSALM_VERSION', Versions::getVersion('vimeo/psalm'));
+    }
+
+    if (! defined('PHP_PARSER_VERSION')) {
+        define('PHP_PARSER_VERSION', Versions::getVersion('nikic/php-parser'));
+    }
+
+    $makeAnalyzer = static function () use ($cwd): ProjectAnalyzer {
+        RuntimeCaches::clearAll();
+
+        $config = Config::getConfigForPath($cwd, $cwd, Report::TYPE_CONSOLE);
+
+        $config->setIncludeCollector(new IncludeCollector());
+
+        return new ProjectAnalyzer(
+            $config,
+            new Providers(new FileProvider()),
+            new ReportOptions()
+        );
+    };
+
+    (new Application(Bootstrapper::bootstrap(
+        Container::create(),
+        new RunStaticAnalysisAgainstMutant($makeAnalyzer)
+    )))
+        ->run();
+})();

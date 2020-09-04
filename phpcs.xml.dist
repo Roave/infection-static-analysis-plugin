@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ruleset
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd"
+>
+    <arg name="basepath" value="."/>
+    <arg name="extensions" value="php"/>
+    <arg name="parallel" value="80"/>
+    <arg name="cache" value=".phpcs-cache"/>
+    <arg name="colors"/>
+
+    <arg value="nps"/>
+
+    <file>src</file>
+    <file>test</file>
+
+    <rule ref="Doctrine">
+        <!-- properties in psalm config do not use camel-case naming -->
+        <exclude name="Squiz.NamingConventions.ValidVariableName.NotCamelCaps"/>
+    </rule>
+</ruleset>

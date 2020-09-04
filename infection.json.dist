@@ -1,0 +1,15 @@
+{
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "logs": {
+        "text": "php://stderr",
+        "badge": {
+            "branch": "master"
+        }
+    },
+    "minMsi": 100,
+    "minCoveredMsi": 100
+}
