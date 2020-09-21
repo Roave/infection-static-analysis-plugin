@@ -16,7 +16,7 @@
         "php": "^7.4.7",
         "infection/infection": "0.17.5",
         "ocramius/package-versions": "^1.9.0 || ^2.0.0",
-        "vimeo/psalm": "^3.15.0"
+        "vimeo/psalm": "^3.16"
     },
     "require-dev": {
         "doctrine/coding-standard": "^8.1.0",
