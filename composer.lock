@@ -227,16 +227,16 @@
         },
         {
             "name": "composer/semver",
-            "version": "3.2.0",
+            "version": "3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/semver.git",
-                "reference": "da7ce661431b17a71271cdf7f5437dc722133123"
+                "reference": "4089fddb67bcf6bf860d91b979e95be303835002"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/semver/zipball/da7ce661431b17a71271cdf7f5437dc722133123",
-                "reference": "da7ce661431b17a71271cdf7f5437dc722133123",
+                "url": "https://api.github.com/repos/composer/semver/zipball/4089fddb67bcf6bf860d91b979e95be303835002",
+                "reference": "4089fddb67bcf6bf860d91b979e95be303835002",
                 "shasum": ""
             },
             "require": {
@@ -299,7 +299,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-09T09:39:19+00:00"
+            "time": "2020-10-14T08:51:15+00:00"
         },
         {
             "name": "composer/xdebug-handler",
@@ -722,10 +722,6 @@
                 "testing",
                 "unit testing"
             ],
-            "support": {
-                "issues": "https://github.com/infection/infection/issues",
-                "source": "https://github.com/infection/infection/tree/0.18"
-            },
             "time": "2020-10-17T10:55:12+00:00"
         },
         {
@@ -4466,5 +4462,5 @@
         "php": "^7.4.7"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "1.1.0"
 }
