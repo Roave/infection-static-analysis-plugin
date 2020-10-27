@@ -19,7 +19,7 @@
         "vimeo/psalm": "^3.18"
     },
     "require-dev": {
-        "doctrine/coding-standard": "^8.1.0",
+        "doctrine/coding-standard": "^8.2.0",
         "phpunit/phpunit": "^9.2.6"
     },
     "autoload": {
