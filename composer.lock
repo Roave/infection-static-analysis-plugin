@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ea6f35012f165eda72bd00b98e752a2e",
+    "content-hash": "6dfc6c10810f48e5fa48ebcb12640071",
     "packages": [
         {
             "name": "amphp/amp",
@@ -622,16 +622,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.18.2",
+            "version": "0.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "05685f8e97ec2d42455fdaad6984446d5af2f67e"
+                "reference": "735506ce5fc35dd504c9ba147d5fe0554898b232"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/05685f8e97ec2d42455fdaad6984446d5af2f67e",
-                "reference": "05685f8e97ec2d42455fdaad6984446d5af2f67e",
+                "url": "https://api.github.com/repos/infection/infection/zipball/735506ce5fc35dd504c9ba147d5fe0554898b232",
+                "reference": "735506ce5fc35dd504c9ba147d5fe0554898b232",
                 "shasum": ""
             },
             "require": {
@@ -646,7 +646,7 @@
                 "nikic/php-parser": "^4.10.2",
                 "ocramius/package-versions": "^1.2 || ^2.0",
                 "ondram/ci-detector": "^3.3.0",
-                "php": "^7.3 || ^8.0",
+                "php": "^7.4 || ^8.0",
                 "sanmai/pipeline": "^3.1 || ^5.0",
                 "sebastian/diff": "^3.0.2 || ^4.0",
                 "seld/jsonlint": "^1.7",
@@ -663,18 +663,19 @@
                 "symfony/console": "=4.1.5"
             },
             "require-dev": {
-                "composer/package-versions-deprecated": "^1.2 || ^2.0",
                 "ext-simplexml": "*",
                 "helmich/phpunit-json-assert": "^3.0",
                 "phpspec/prophecy-phpunit": "^2.0",
                 "phpstan/extension-installer": "^1.0",
                 "phpstan/phpstan": "^0.12.8",
                 "phpstan/phpstan-phpunit": "^0.12.6",
+                "phpstan/phpstan-strict-rules": "^0.12.5",
                 "phpstan/phpstan-webmozart-assert": "^0.12.2",
                 "phpunit/phpunit": "^9.3.11",
                 "symfony/phpunit-bridge": "^4.4.14 || ^5.1.6",
                 "symfony/yaml": "^5.0",
-                "thecodingmachine/phpstan-safe-rule": "^1.0"
+                "thecodingmachine/phpstan-safe-rule": "^1.0",
+                "vimeo/psalm": "^4.0"
             },
             "bin": [
                 "bin/infection"
@@ -728,7 +729,7 @@
                 "testing",
                 "unit testing"
             ],
-            "time": "2020-10-21T20:25:38+00:00"
+            "time": "2020-10-31T19:41:12+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
