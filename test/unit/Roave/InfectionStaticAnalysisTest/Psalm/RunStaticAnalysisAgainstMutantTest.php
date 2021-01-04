@@ -16,7 +16,6 @@ use Psalm\Internal\IncludeCollector;
 use Psalm\Internal\Provider\FileProvider;
 use Psalm\Internal\Provider\Providers;
 use Psalm\Internal\RuntimeCaches;
-use Psalm\Report;
 use Psalm\Report\ReportOptions;
 use Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant;
 
@@ -182,8 +181,7 @@ PHP;
 
             $config = Config::getConfigForPath(
                 self::PSALM_WORKING_DIRECTORY,
-                self::PSALM_WORKING_DIRECTORY,
-                Report::TYPE_CONSOLE
+                self::PSALM_WORKING_DIRECTORY
             );
 
             $config->setIncludeCollector(new IncludeCollector());
@@ -210,8 +208,7 @@ PHP;
     {
         $psalmConfig = Config::getConfigForPath(
             self::PSALM_WORKING_DIRECTORY,
-            self::PSALM_WORKING_DIRECTORY,
-            Report::TYPE_CONSOLE
+            self::PSALM_WORKING_DIRECTORY
         );
 
         $psalmConfig->setIncludeCollector(new IncludeCollector());
@@ -223,8 +220,7 @@ PHP;
     {
         $psalmConfig = Config::getConfigForPath(
             self::PSALM_WORKING_DIRECTORY,
-            self::PSALM_WORKING_DIRECTORY,
-            Report::TYPE_CONSOLE
+            self::PSALM_WORKING_DIRECTORY
         );
 
         $psalmConfig->setIncludeCollector(new IncludeCollector());
@@ -236,8 +232,7 @@ PHP;
     {
         $psalmConfig = Config::getConfigForPath(
             self::PSALM_WORKING_DIRECTORY,
-            self::PSALM_WORKING_DIRECTORY,
-            Report::TYPE_CONSOLE
+            self::PSALM_WORKING_DIRECTORY
         );
 
         $psalmConfig->setIncludeCollector(new IncludeCollector());
@@ -249,8 +244,7 @@ PHP;
     {
         $psalmConfig = Config::getConfigForPath(
             self::PSALM_WORKING_DIRECTORY,
-            self::PSALM_WORKING_DIRECTORY,
-            Report::TYPE_CONSOLE
+            self::PSALM_WORKING_DIRECTORY
         );
 
         $psalmConfig->setIncludeCollector(new IncludeCollector());

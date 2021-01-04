@@ -14,7 +14,6 @@ use Psalm\Internal\IncludeCollector;
 use Psalm\Internal\Provider\FileProvider;
 use Psalm\Internal\Provider\Providers;
 use Psalm\Internal\RuntimeCaches;
-use Psalm\Report;
 use Psalm\Report\ReportOptions;
 use Roave\InfectionStaticAnalysis\Bootstrapper;
 use Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant;
@@ -40,7 +39,7 @@ use function getcwd;
     $makeAnalyzer = static function () use ($cwd): ProjectAnalyzer {
         RuntimeCaches::clearAll();
 
-        $config = Config::getConfigForPath($cwd, $cwd, Report::TYPE_CONSOLE);
+        $config = Config::getConfigForPath($cwd, $cwd);
 
         $config->setIncludeCollector(new IncludeCollector());
 
