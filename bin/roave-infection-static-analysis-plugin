@@ -17,16 +17,36 @@ use Psalm\Internal\RuntimeCaches;
 use Psalm\Report\ReportOptions;
 use Roave\InfectionStaticAnalysis\Bootstrapper;
 use Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant;
+use UnexpectedValueException;
 use function define;
 use function defined;
 use function getcwd;
+use function sprintf;
+use function var_export;
 
 (static function (): void {
-    $cwd = getcwd();
+    $projectPath = (static function () : string {
+        $projectDirectoryCandidates = [
+            'current-working-directory'        => getcwd(),
+            'installed-as-composer-dependency' => __DIR__ . '/../../..',
+            'installed-as-project'             => __DIR__ . '/..',
+        ];
 
-    (static function () use ($cwd): void {
-        require_once $cwd . '/vendor/autoload.php';
+        foreach ($projectDirectoryCandidates as $candidatePath) {
+            if (! file_exists($candidatePath . '/vendor/autoload.php')) {
+                continue;
+            }
+
+            return $candidatePath;
+        }
+
+        throw new UnexpectedValueException(sprintf(
+            'Could not identify project installation path within following paths: %s',
+            var_export($projectDirectoryCandidates, true)
+        ));
     })();
+
+    require_once $projectPath . '/vendor/autoload.php';
 
     if (! defined('PSALM_VERSION')) {
         define('PSALM_VERSION', Versions::getVersion('vimeo/psalm'));
@@ -36,10 +56,10 @@ use function getcwd;
         define('PHP_PARSER_VERSION', Versions::getVersion('nikic/php-parser'));
     }
 
-    $makeAnalyzer = static function () use ($cwd): ProjectAnalyzer {
+    $makeAnalyzer = static function () use ($projectPath): ProjectAnalyzer {
         RuntimeCaches::clearAll();
 
-        $config = Config::getConfigForPath($cwd, $cwd);
+        $config = Config::getConfigForPath($projectPath, $projectPath);
 
         $config->setIncludeCollector(new IncludeCollector());
 
