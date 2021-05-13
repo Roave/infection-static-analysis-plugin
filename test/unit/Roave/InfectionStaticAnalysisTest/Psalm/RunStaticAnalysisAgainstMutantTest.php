@@ -25,6 +25,7 @@ use function define;
 use function defined;
 use function file_put_contents;
 use function Later\now;
+use function realpath;
 use function sys_get_temp_dir;
 use function tempnam;
 use function unlink;
@@ -293,9 +294,45 @@ PHP
         );
     }
 
+    public function testWillConsiderMutantOfAlreadyReferencedScannedClassAsValid(): void
+    {
+        $usesSourceDeclaredClassSymbol       = $this->makeMutant('uses-source-declared-class-symbol-', <<<'PHP'
+<?php
+
+function makeArrayFilter(): array {
+    return (new \Roave\InfectionStaticAnalysis\Stub\ArrayFilter())->makeAList(['a' => 'b']);
+}
+PHP
+        );
+        $reDeclaresSourceDeclaredClassSymbol = $this->makeMutant(
+            're-declares-source-declared-class-symbol-',
+            <<<'PHP'
+<?php
+
+namespace Roave\InfectionStaticAnalysis\Stub;
+
+final class ArrayFilter {
+    function makeAList(): int { return 1; }
+}
+PHP
+            ,
+            realpath(__DIR__ . '/../../../../../src/Roave/InfectionStaticAnalysis/Stub/ArrayFilter.php')
+        );
+
+        self::assertTrue(
+            $this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($usesSourceDeclaredClassSymbol),
+            'Class symbol was seen for the first time in sources, through indirect scan'
+        );
+        self::assertTrue(
+            $this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($reDeclaresSourceDeclaredClassSymbol),
+            'Class symbol re-declared by the mutant, which is an altered version of it'
+        );
+    }
+
     private function makeMutant(
         string $pathPrefix,
-        string $mutatedCode
+        string $mutatedCode,
+        string $originalFilePath = 'irrelevant'
     ): Mutant {
         $mutatedCodePath = tempnam(sys_get_temp_dir(), $pathPrefix);
         file_put_contents($mutatedCodePath, $mutatedCode);
@@ -305,7 +342,7 @@ PHP
         return new Mutant(
             $mutatedCodePath,
             new Mutation(
-                'foo',
+                $originalFilePath,
                 [],
                 'Plus',
                 array_combine(
