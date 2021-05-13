@@ -10,6 +10,10 @@
     beStrictAboutTodoAnnotatedTests="true"
     executionOrder="random"
 >
+    <php>
+        <ini name="memory_limit" value="-1"/>
+    </php>
+
     <testsuites>
         <testsuite name="Roave\InfectionStaticAnalysis tests">
             <directory>./test/unit</directory>

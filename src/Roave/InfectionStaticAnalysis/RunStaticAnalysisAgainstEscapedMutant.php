@@ -10,6 +10,8 @@ use Infection\Mutant\MutantExecutionResultFactory;
 use Infection\Process\MutantProcess;
 use Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant;
 
+use function Later\later;
+
 /**
  * @internal
  *
@@ -44,12 +46,12 @@ class RunStaticAnalysisAgainstEscapedMutant extends MutantExecutionResultFactory
             $result->getProcessCommandLine(),
             $result->getProcessOutput(),
             DetectionStatus::KILLED, // Mutant was squished by static analysis
-            $result->getMutantDiff(),
+            later(static fn () => yield $result->getMutantDiff()),
             $result->getMutatorName(),
             $result->getOriginalFilePath(),
             $result->getOriginalStartingLine(),
-            $result->getOriginalCode(),
-            $result->getMutatedCode()
+            later(static fn () => yield $result->getOriginalCode()),
+            later(static fn () => yield $result->getMutatedCode())
         );
     }
 }

@@ -20,6 +20,7 @@ use Symfony\Component\Process\Process;
 
 use function array_combine;
 use function array_map;
+use function Later\now;
 
 /** @covers \Roave\InfectionStaticAnalysis\RunStaticAnalysisAgainstEscapedMutant */
 final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
@@ -51,9 +52,9 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
                 0,
                 []
             ),
-            'code',
-            '',
-            ''
+            now('code'),
+            now(''),
+            now('')
         );
 
         $this->process        = new MutantProcess(new Process(['echo', 'hi']), $this->mutant);
@@ -71,12 +72,12 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
             'echo hi',
             'output',
             DetectionStatus::KILLED,
-            'diff',
+            now('diff'),
             'AssignmentEqual',
             '/tmp/my-file',
             1,
-            'code',
-            'mutated code'
+            now('code'),
+            now('mutated code')
         );
 
         $this->nextFactory->expects(self::once())
@@ -100,12 +101,12 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
             'echo hi',
             'output',
             DetectionStatus::ESCAPED,
-            'diff',
+            now('diff'),
             'AssignmentEqual',
             '/tmp/my-file',
             1,
-            'code',
-            'mutated code'
+            now('code'),
+            now('mutated code')
         );
 
         $this->nextFactory->expects(self::once())
@@ -136,12 +137,12 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
             'echo hi',
             'output',
             DetectionStatus::ESCAPED,
-            'diff',
+            now('diff'),
             'AssignmentEqual',
             '/tmp/my-file',
             1,
-            'code',
-            'mutated code'
+            now('code'),
+            now('mutated code')
         );
 
         $this->nextFactory->expects(self::once())
