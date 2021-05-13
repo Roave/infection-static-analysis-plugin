@@ -24,6 +24,7 @@ use function array_map;
 use function define;
 use function defined;
 use function file_put_contents;
+use function Later\now;
 use function sys_get_temp_dir;
 use function tempnam;
 use function unlink;
@@ -112,9 +113,9 @@ PHP;
                 0,
                 []
             ),
-            $validCode,
-            '',
-            ''
+            now($validCode),
+            now(''),
+            now('')
         );
 
         $this->mutantWithInvalidCode = new Mutant(
@@ -129,9 +130,9 @@ PHP;
                 0,
                 []
             ),
-            $invalidCode,
-            '',
-            ''
+            now($invalidCode),
+            now(''),
+            now('')
         );
 
         $this->mutantWithValidCodeReferencingProjectFiles = new Mutant(
@@ -146,9 +147,9 @@ PHP;
                 0,
                 []
             ),
-            $validCodeReferencingProjectFiles,
-            '',
-            ''
+            now($validCodeReferencingProjectFiles),
+            now(''),
+            now('')
         );
 
         $this->mutantWithValidCodeReferencingReflectionApi = new Mutant(
@@ -163,9 +164,9 @@ PHP;
                 0,
                 []
             ),
-            $validCodeReferencingProjectFiles,
-            '',
-            ''
+            now($validCodeReferencingProjectFiles),
+            now(''),
+            now('')
         );
 
         if (! defined('PSALM_VERSION')) {

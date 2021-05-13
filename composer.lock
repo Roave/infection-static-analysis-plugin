@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "22414ac1556dfb9ad3387f284fea06d9",
+    "content-hash": "5991f7a2c62b8d249afacaa6342582de",
     "packages": [
         {
             "name": "amphp/amp",
@@ -1312,6 +1312,10 @@
                 }
             ],
             "description": "Later: deferred wrapper object",
+            "support": {
+                "issues": "https://github.com/sanmai/later/issues",
+                "source": "https://github.com/sanmai/later/tree/0.1.2"
+            },
             "funding": [
                 {
                     "url": "https://github.com/sanmai",
@@ -4581,5 +4585,5 @@
         "php": "~7.4.7|~8.0.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }
