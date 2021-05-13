@@ -10,9 +10,11 @@ use function array_values;
 final class ArrayFilter
 {
     /**
-     * @psalm-template T
      * @psalm-param array<T> $values
+     *
      * @psalm-return list<T>
+     *
+     * @psalm-template T
      */
     public function makeAList(array $values): array
     {
