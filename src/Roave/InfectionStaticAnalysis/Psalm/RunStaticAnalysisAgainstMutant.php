@@ -30,6 +30,11 @@ class RunStaticAnalysisAgainstMutant
         $paths    = [$mutant->getFilePath()];
         $codebase = $this->projectAnalyzer->getCodebase();
 
+        $codebase->invalidateInformationForFile(
+            $mutant->getMutation()
+                ->getOriginalFilePath()
+        );
+
         $codebase->reloadFiles($this->projectAnalyzer, $paths);
         $codebase->analyzer->analyzeFiles($this->projectAnalyzer, count($paths), false);
 
