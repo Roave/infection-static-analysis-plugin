@@ -33,10 +33,6 @@ use function unlink;
 final class RunStaticAnalysisAgainstMutantTest extends TestCase
 {
     private const PSALM_WORKING_DIRECTORY = __DIR__ . '/../../../../..';
-    private Mutant $mutantWithValidCode;
-    private Mutant $mutantWithInvalidCode;
-    private Mutant $mutantWithValidCodeReferencingProjectFiles;
-    private Mutant $mutantWithValidCodeReferencingReflectionApi;
     private RunStaticAnalysisAgainstMutant $runStaticAnalysis;
 
     /** @var list<string> */
@@ -212,32 +208,74 @@ PHP;
 
         $this->generatedMutantFiles = [];
 
-        unlink($this->mutantWithValidCode->getFilePath());
-        unlink($this->mutantWithInvalidCode->getFilePath());
-        unlink($this->mutantWithValidCodeReferencingProjectFiles->getFilePath());
-        unlink($this->mutantWithValidCodeReferencingReflectionApi->getFilePath());
-
         parent::tearDown();
     }
 
     public function testWillConsiderMutantValidIfNoErrorsAreDetectedByStaticAnalysis(): void
     {
-        self::assertTrue($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($this->mutantWithValidCode));
+        self::assertTrue($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($this->makeMutant(
+            'valid-mutated-code-',
+            <<<'PHP'
+<?php
+
+/**
+ * @psalm-param positive-int $a 
+ * @psalm-param positive-int $b 
+ * @psalm-return positive-int 
+ */
+function add(int $a, int $b): int {
+    return $a + $b;
+}
+PHP
+        )));
     }
 
     public function testWillConsiderMutantInvalidIfErrorsAreDetectedByStaticAnalysis(): void
     {
-        self::assertFalse($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($this->mutantWithInvalidCode));
+        self::assertFalse($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($this->makeMutant(
+            'invalid-mutated-code-',
+            <<<'PHP'
+<?php
+
+/**
+ * @psalm-param positive-int $a 
+ * @psalm-param positive-int $b 
+ * @psalm-return positive-int 
+ */
+function add(int $a, int $b): int {
+    return $a - $b;
+}
+PHP
+        )));
     }
 
     public function testWillConsiderMutantReferencingProjectFilesAsValid(): void
     {
-        self::assertTrue($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($this->mutantWithValidCodeReferencingProjectFiles));
+        self::assertTrue($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($this->makeMutant(
+            'valid-code-referencing-project-files-',
+            <<<'PHP'
+<?php
+
+function add(array $input): int {
+    return count((new \Roave\InfectionStaticAnalysis\Stub\ArrayFilter())->makeAList($input));
+}
+PHP
+        )));
     }
 
     public function testWillConsiderMutantReferencingReflectionApiAsValid(): void
     {
-        self::assertTrue($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($this->mutantWithValidCodeReferencingReflectionApi));
+        self::assertTrue($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($this->makeMutant(
+            'valid-code-referencing-reflection-api-',
+            <<<'PHP'
+<?php
+
+function hasMethod(object $input, string $method): bool {
+    return (new ReflectionClass($input))
+        ->hasMethod($method);
+}
+PHP
+        )));
     }
 
     public function testWillConsiderMutantWithRepeatedClassSymbolDeclarationAsEscaped(): void
