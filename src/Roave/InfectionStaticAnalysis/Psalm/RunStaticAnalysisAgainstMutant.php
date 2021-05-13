@@ -33,9 +33,13 @@ class RunStaticAnalysisAgainstMutant
         $codebase->reloadFiles($this->projectAnalyzer, $paths);
         $codebase->analyzer->analyzeFiles($this->projectAnalyzer, count($paths), false);
 
-        return ! array_key_exists(
+        $mutationValid = ! array_key_exists(
             $path,
             $codebase->file_reference_provider->getExistingIssues(),
         );
+
+        $codebase->invalidateInformationForFile($path);
+
+        return $mutationValid;
     }
 }
