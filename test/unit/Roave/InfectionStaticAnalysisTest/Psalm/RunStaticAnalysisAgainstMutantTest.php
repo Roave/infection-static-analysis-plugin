@@ -177,22 +177,20 @@ PHP;
             define('PHP_PARSER_VERSION', Versions::getVersion('nikic/php-parser'));
         }
 
-        $this->runStaticAnalysis = new RunStaticAnalysisAgainstMutant(static function (): ProjectAnalyzer {
-            RuntimeCaches::clearAll();
+        RuntimeCaches::clearAll();
 
-            $config = Config::getConfigForPath(
-                self::PSALM_WORKING_DIRECTORY,
-                self::PSALM_WORKING_DIRECTORY,
-            );
+        $config = Config::getConfigForPath(
+            self::PSALM_WORKING_DIRECTORY,
+            self::PSALM_WORKING_DIRECTORY
+        );
 
-            $config->setIncludeCollector(new IncludeCollector());
+        $config->setIncludeCollector(new IncludeCollector());
 
-            return new ProjectAnalyzer(
-                $config,
-                new Providers(new FileProvider()),
-                new ReportOptions(),
-            );
-        });
+        $this->runStaticAnalysis = new RunStaticAnalysisAgainstMutant(new ProjectAnalyzer(
+            $config,
+            new Providers(new FileProvider()),
+            new ReportOptions(),
+        ));
     }
 
     protected function tearDown(): void

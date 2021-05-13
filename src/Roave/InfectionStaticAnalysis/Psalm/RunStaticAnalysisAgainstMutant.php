@@ -8,6 +8,7 @@ use Infection\Mutant\Mutant;
 use Psalm\Internal\Analyzer\ProjectAnalyzer;
 
 use function array_key_exists;
+use function count;
 
 /**
  * @internal
@@ -16,34 +17,25 @@ use function array_key_exists;
  */
 class RunStaticAnalysisAgainstMutant
 {
-    /** @var callable(): ProjectAnalyzer */
-    private $makeFreshAnalyzer;
+    private ProjectAnalyzer $projectAnalyzer;
 
-    /**
-     * Psalm has a lot of state in it, so we need a "fresh psalm" at each analysis - that's why
-     * a callable factory is injected
-     *
-     * @see https://github.com/vimeo/psalm/issues/4117
-     *
-     * @param callable(): ProjectAnalyzer $makeFreshAnalyzer
-     */
-    public function __construct(callable $makeFreshAnalyzer)
+    public function __construct(ProjectAnalyzer $projectAnalyzer)
     {
-        $this->makeFreshAnalyzer = $makeFreshAnalyzer;
+        $this->projectAnalyzer = $projectAnalyzer;
     }
 
     public function isMutantStillValidAccordingToStaticAnalysis(Mutant $mutant): bool
     {
-        $path            = $mutant->getFilePath();
-        $projectAnalyzer = ($this->makeFreshAnalyzer)();
+        $path     = $mutant->getFilePath();
+        $paths    = [$mutant->getFilePath()];
+        $codebase = $this->projectAnalyzer->getCodebase();
 
-        $projectAnalyzer->checkFile($path);
+        $codebase->reloadFiles($this->projectAnalyzer, $paths);
+        $codebase->analyzer->analyzeFiles($this->projectAnalyzer, count($paths), false);
 
         return ! array_key_exists(
             $path,
-            $projectAnalyzer->getCodebase()
-                ->file_reference_provider
-                ->getExistingIssues(),
+            $codebase->file_reference_provider->getExistingIssues(),
         );
     }
 }
