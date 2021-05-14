@@ -1,0 +1,37 @@
+version: 2
+updates:
+- package-ecosystem: composer
+  directory: "/"
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 10
+  versioning-strategy: increase
+  allow:
+  - dependency-type: direct
+  - dependency-type: indirect
+  ignore:
+  - dependency-name: infection/infection
+    versions:
+    - 0.21.0
+    - 0.21.2
+    - 0.21.4
+    - 0.21.5
+  - dependency-name: symfony/string
+    versions:
+    - 5.2.2
+    - 5.2.6
+  - dependency-name: symfony/console
+    versions:
+    - 5.2.6
+  - dependency-name: phpspec/prophecy
+    versions:
+    - 1.13.0
+  - dependency-name: felixfbecker/language-server-protocol
+    versions:
+    - 1.5.1
+  - dependency-name: symfony/polyfill-ctype
+    versions:
+    - 1.22.1
+  - dependency-name: symfony/polyfill-mbstring
+    versions:
+    - 1.22.1
