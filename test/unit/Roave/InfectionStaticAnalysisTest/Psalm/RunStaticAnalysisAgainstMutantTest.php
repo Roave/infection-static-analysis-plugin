@@ -329,6 +329,30 @@ PHP
         );
     }
 
+    /** @see https://github.com/vimeo/psalm/issues/5764#issuecomment-841174672 */
+    public function testInternalPhpEngineConstantsCanBeReferencedFromAnalyzedMutantCode(): void
+    {
+        self::assertTrue($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($this->makeMutant(
+            'reference-to-php-internal-constant-',
+            '<?php return json_encode("foo", JSON_THROW_ON_ERROR);'
+        )));
+    }
+
+    /** @see https://github.com/vimeo/psalm/issues/5764#issuecomment-841174672 */
+    public function testInternalPhpEngineSymbolPurityPropertiesCanBeReliedUponDuringMutantAnalysis(): void
+    {
+        self::assertTrue($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($this->makeMutant(
+            'usage-of-php-internal-class-purity-properties-',
+            <<<'PHP'
+<?php
+/** @psalm-pure */
+function pureTimestamp(\DateTimeImmutable $d): int {
+    return $d->getTimestamp();
+}
+PHP
+        )));
+    }
+
     private function makeMutant(
         string $pathPrefix,
         string $mutatedCode,
