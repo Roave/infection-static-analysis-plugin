@@ -56,23 +56,19 @@ use function var_export;
         define('PHP_PARSER_VERSION', Versions::getVersion('nikic/php-parser'));
     }
 
-    $makeAnalyzer = static function () use ($projectPath): ProjectAnalyzer {
-        RuntimeCaches::clearAll();
+    RuntimeCaches::clearAll();
 
-        $config = Config::getConfigForPath($projectPath, $projectPath);
+    $config = Config::getConfigForPath($projectPath, $projectPath);
 
-        $config->setIncludeCollector(new IncludeCollector());
-
-        return new ProjectAnalyzer(
-            $config,
-            new Providers(new FileProvider()),
-            new ReportOptions()
-        );
-    };
+    $config->setIncludeCollector(new IncludeCollector());
 
     (new Application(Bootstrapper::bootstrap(
         Container::create(),
-        new RunStaticAnalysisAgainstMutant($makeAnalyzer)
+        new RunStaticAnalysisAgainstMutant(new ProjectAnalyzer(
+            $config,
+            new Providers(new FileProvider()),
+            new ReportOptions()
+        ))
     )))
         ->run();
 })();
