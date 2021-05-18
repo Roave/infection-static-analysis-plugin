@@ -40,6 +40,8 @@ class RunStaticAnalysisAgainstMutant
             $codebase->config->visitPreloadedStubFiles($codebase);
             $codebase->config->visitStubFiles($codebase);
             $codebase->config->visitComposerAutoloadFiles($this->projectAnalyzer);
+
+            $this->alreadyVisitedStubs = true;
         }
 
         $codebase->reloadFiles($this->projectAnalyzer, $paths);

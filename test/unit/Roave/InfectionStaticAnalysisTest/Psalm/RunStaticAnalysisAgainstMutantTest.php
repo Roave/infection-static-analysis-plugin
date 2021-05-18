@@ -28,6 +28,7 @@ use function file_put_contents;
 use function Later\now;
 use function mkdir;
 use function realpath;
+use function rmdir;
 use function sys_get_temp_dir;
 use function tempnam;
 use function unlink;
