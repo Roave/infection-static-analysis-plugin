@@ -356,6 +356,21 @@ PHP
         )));
     }
 
+    /** @see https://github.com/vimeo/psalm/issues/5764#issuecomment-843249180 */
+    public function testReferencesToInternalStaticMethodsAreConsidered(): void
+    {
+        self::assertTrue($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($this->makeMutant(
+            'usage-of-php-internal-class-static-method-',
+            <<<'PHP'
+<?php
+/** @psalm-pure */
+function makeDate(): ?\DateTimeInterface {
+    return \DateTimeImmutable::createFromFormat('Y-m-d', '2020-01-01') ?: null;
+}
+PHP
+        )));
+    }
+
     /** @see https://github.com/vimeo/psalm/issues/5764#issuecomment-842687795 */
     public function testPreloadedStubsAreNotConsideredIfNotConfigured(): void
     {
