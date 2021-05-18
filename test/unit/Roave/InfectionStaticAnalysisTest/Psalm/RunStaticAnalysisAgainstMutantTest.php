@@ -371,6 +371,22 @@ PHP
         )));
     }
 
+    /** @see https://github.com/vimeo/psalm/issues/5764#issuecomment-843436051 */
+    public function testCanReferenceInternalStubInformationAfterScanningMutantWithNoCoreClassReferences(): void
+    {
+        $mutantWithNoPhpCoreReferences = $this->makeMutant(
+            'mutant-with-no-php-core-references-',
+            '<?php return 1;'
+        );
+        $mutantWithPhpCoreReferences = $this->makeMutant(
+            'mutant-with-php-core-references-',
+            '<?php return DateTimeImmutable::createFromFormat("Y-m-d", "2021-05-18");'
+        );
+
+        self::assertTrue($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($mutantWithNoPhpCoreReferences));
+        self::assertTrue($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($mutantWithPhpCoreReferences));
+    }
+
     /** @see https://github.com/vimeo/psalm/issues/5764#issuecomment-842687795 */
     public function testPreloadedStubsAreNotConsideredIfNotConfigured(): void
     {
