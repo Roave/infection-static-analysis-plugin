@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<psalm
+    xmlns="https://getpsalm.org/schema/config"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://getpsalm.org/schema/config ../../../vendor/vimeo/psalm/config.xsd"
+    name="Static analysis stubs verifying that stub configuration is picked up"
+>
+    <stubs>
+        <file name="Stub.phpstub" preloadClasses="true"/>
+    </stubs>
+
+    <projectFiles>
+        <directory name="."/>
+    </projectFiles>
+</psalm>

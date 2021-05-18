@@ -353,6 +353,43 @@ PHP
         )));
     }
 
+    /** @see https://github.com/vimeo/psalm/issues/5764#issuecomment-842687795 */
+    public function testPreloadedStubsAreNotConsideredIfNotConfigured(): void
+    {
+        self::assertFalse($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($this->makeMutant(
+            'usage-of-unknown-preloaded-stub-class-',
+            <<<'PHP'
+<?php 
+class StubImplementation implements \Roave\InfectionStaticAnalysisAsset\PreloadClassStub\Stub {}
+PHP
+        )));
+    }
+
+    /** @see https://github.com/vimeo/psalm/issues/5764#issuecomment-842687795 */
+    public function testConfiguredPreloadedStubsAreConsidered(): void
+    {
+        $config = Config::getConfigForPath(
+            __DIR__ . '/../../../../asset/PreloadClassStub',
+            __DIR__ . '/../../../../asset/PreloadClassStub'
+        );
+
+        $config->setIncludeCollector(new IncludeCollector());
+
+        $runStaticAnalysis = new RunStaticAnalysisAgainstMutant(new ProjectAnalyzer(
+            $config,
+            new Providers(new FileProvider()),
+            new ReportOptions()
+        ));
+
+        self::assertTrue($runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($this->makeMutant(
+            'usage-of-preloaded-stub-class-',
+            <<<'PHP'
+<?php 
+class StubImplementation implements \Roave\InfectionStaticAnalysisAsset\PreloadClassStub\Stub {}
+PHP
+        )));
+    }
+
     private function makeMutant(
         string $pathPrefix,
         string $mutatedCode,
