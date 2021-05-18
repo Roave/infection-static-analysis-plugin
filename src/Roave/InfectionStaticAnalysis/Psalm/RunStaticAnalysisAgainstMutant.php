@@ -18,6 +18,7 @@ use function count;
 class RunStaticAnalysisAgainstMutant
 {
     private ProjectAnalyzer $projectAnalyzer;
+    private bool $alreadyVisitedStubs = false;
 
     public function __construct(ProjectAnalyzer $projectAnalyzer)
     {
@@ -34,6 +35,12 @@ class RunStaticAnalysisAgainstMutant
             $mutant->getMutation()
                 ->getOriginalFilePath()
         );
+
+        if (! $this->alreadyVisitedStubs) {
+            $codebase->config->visitPreloadedStubFiles($codebase);
+            $codebase->config->visitStubFiles($codebase);
+            $codebase->config->visitComposerAutoloadFiles($this->projectAnalyzer);
+        }
 
         $codebase->reloadFiles($this->projectAnalyzer, $paths);
         $codebase->analyzer->analyzeFiles($this->projectAnalyzer, count($paths), false);

@@ -21,10 +21,12 @@ use Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant;
 
 use function array_combine;
 use function array_map;
+use function copy;
 use function define;
 use function defined;
 use function file_put_contents;
 use function Later\now;
+use function mkdir;
 use function realpath;
 use function sys_get_temp_dir;
 use function tempnam;
@@ -388,6 +390,48 @@ PHP
 class StubImplementation implements \Roave\InfectionStaticAnalysisAsset\PreloadClassStub\Stub {}
 PHP
         )));
+    }
+
+    /** @see https://github.com/vimeo/psalm/issues/5764#issuecomment-842687795 */
+    public function testStubPreloadingHappensOnlyOnce(): void
+    {
+        $mutableProject = tempnam(sys_get_temp_dir(), 'mutable-project-stub-');
+
+        unlink($mutableProject);
+        mkdir($mutableProject);
+        mkdir($mutableProject . '/vendor');
+        mkdir($mutableProject . '/vendor/composer');
+
+        copy(__DIR__ . '/../../../../asset/MutableProjectStub/psalm.xml', $mutableProject . '/psalm.xml');
+
+        $config = Config::getConfigForPath($mutableProject, $mutableProject);
+
+        $config->setIncludeCollector(new IncludeCollector());
+
+        $runStaticAnalysis = new RunStaticAnalysisAgainstMutant(new ProjectAnalyzer(
+            $config,
+            new Providers(new FileProvider()),
+            new ReportOptions()
+        ));
+
+        $mutant = $this->makeMutant('usage-of-mutable-stub-class-', '<?php echo "hello";');
+
+        self::assertTrue($runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($mutant));
+
+        // Modifying the project definitions that are stored on disk: this modified version should not
+        // be considered by psalm after the first analysis.
+        file_put_contents(
+            $mutableProject . '/vendor/composer/autoload_files.php',
+            '<?php throw new \Exception("Psalm should not be scanning this file location again");'
+        );
+
+        self::assertTrue($runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($mutant));
+
+        unlink($mutableProject . '/vendor/composer/autoload_files.php');
+        unlink($mutableProject . '/psalm.xml');
+        rmdir($mutableProject . '/vendor/composer');
+        rmdir($mutableProject . '/vendor');
+        rmdir($mutableProject);
     }
 
     private function makeMutant(
