@@ -13,7 +13,7 @@
         "bin/roave-infection-static-analysis-plugin"
     ],
     "require": {
-        "php": "~7.4.7|~8.0.0",
+        "php": "~7.4.7|~8.0.0|~8.1.0",
         "infection/infection": "0.25.1",
         "ocramius/package-versions": "^1.9.0 || ^2.0.0",
         "sanmai/later": "^0.1.2",
