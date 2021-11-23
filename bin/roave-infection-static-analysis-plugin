@@ -23,6 +23,7 @@ use function defined;
 use function getcwd;
 use function sprintf;
 use function var_export;
+use function getenv;
 
 (static function (): void {
     $projectPath = (static function () : string {
@@ -59,7 +60,10 @@ use function var_export;
     $makeAnalyzer = static function () use ($projectPath): ProjectAnalyzer {
         RuntimeCaches::clearAll();
 
-        $config = Config::getConfigForPath($projectPath, $projectPath);
+        $configDirectory = getenv('PROJECT_CONFIG_DIRECTORY') ?: '';
+        $configPath = '' !== $configDirectory ? ($projectPath . '/' . $configDirectory) : $projectPath;
+
+        $config = Config::getConfigForPath($configPath, $projectPath);
 
         $config->setIncludeCollector(new IncludeCollector());
 
