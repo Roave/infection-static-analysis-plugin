@@ -24,6 +24,18 @@ composer require --dev roave/infection-static-analysis-plugin
 vendor/bin/roave-infection-static-analysis-plugin
 ```
 
+### Configuration
+
+The `roave-infection-static-analysis-plugin` binary accepts only one argument that is `--psalm-config`.
+
+Using `--psalm-config`, you can specify the psalm configuration file to use when analysing generated mutation,
+or the directory containing the psalm configuration file:
+
+```sh
+vendor/bin/roave-infection-static-analysis-plugin --psalm-config config/psalm.xml # configuration file.
+vendor/bin/roave-infection-static-analysis-plugin --psalm-config="config/" # directory containing the configuration file.
+```
+
 ## Background
 
 If you come from a statically typed language with AoT compilers, you may be

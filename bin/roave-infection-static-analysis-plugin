@@ -16,11 +16,14 @@ use Psalm\Internal\Provider\Providers;
 use Psalm\Internal\RuntimeCaches;
 use Psalm\Report\ReportOptions;
 use Roave\InfectionStaticAnalysis\Bootstrapper;
+use Roave\InfectionStaticAnalysis\CliUtility;
 use Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant;
+use Symfony\Component\Console\Input\ArgvInput;
 use UnexpectedValueException;
 use function define;
 use function defined;
 use function getcwd;
+use function is_file;
 use function sprintf;
 use function var_export;
 
@@ -56,10 +59,18 @@ use function var_export;
         define('PHP_PARSER_VERSION', Versions::getVersion('nikic/php-parser'));
     }
 
-    $makeAnalyzer = static function () use ($projectPath): ProjectAnalyzer {
+    $arguments = CliUtility::getArguments();
+    [$arguments, $configuration] = CliUtility::extractArgument($arguments, 'psalm-config');
+
+    $makeAnalyzer = static function () use ($configuration, $projectPath): ProjectAnalyzer {
         RuntimeCaches::clearAll();
 
-        $config = Config::getConfigForPath($projectPath, $projectPath);
+        $configuration = $configuration ?? $projectPath;
+        if (is_file($configuration)) {
+            $config = Config::loadFromXMLFile($configuration, $projectPath);
+        } else {
+            $config = Config::getConfigForPath($configuration, $projectPath);
+        }
 
         $config->setIncludeCollector(new IncludeCollector());
 
@@ -73,6 +84,5 @@ use function var_export;
     (new Application(Bootstrapper::bootstrap(
         Container::create(),
         new RunStaticAnalysisAgainstMutant($makeAnalyzer)
-    )))
-        ->run();
+    )))->run(new ArgvInput($arguments));
 })();
