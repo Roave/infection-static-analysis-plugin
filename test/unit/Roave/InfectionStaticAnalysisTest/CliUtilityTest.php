@@ -22,6 +22,9 @@ final class CliUtilityTest extends TestCase
         self::assertSame(['a', 'b', 'c'], CliUtility::getArguments());
     }
 
+    /**
+     * @backupGlobals
+     */
     public function testGetArgumentsReturnsAnEmptyArrayAsDefault(): void
     {
         $_SERVER['argv'] = null;
