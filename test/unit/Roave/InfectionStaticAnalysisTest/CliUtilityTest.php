@@ -50,7 +50,12 @@ final class CliUtilityTest extends TestCase
     }
 
     /**
-     * @return list<array{0: (non-empty-string|null), 1: list<non-empty-string>, 2: non-empty-string}>
+     * @return list<array{
+     *     0: list<non-empty-string>,
+     *     1: (non-empty-string|null),
+     *     2: list<non-empty-string>,
+     *     3: non-empty-string
+     * }>
      */
     public function provideExtractionData(): array
     {
