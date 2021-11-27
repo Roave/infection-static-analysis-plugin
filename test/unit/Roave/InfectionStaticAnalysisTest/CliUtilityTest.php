@@ -7,6 +7,9 @@ namespace Roave\InfectionStaticAnalysisTest;
 use PHPUnit\Framework\TestCase;
 use Roave\InfectionStaticAnalysis\CliUtility;
 
+/**
+ * @covers \Roave\InfectionStaticAnalysis\CliUtility
+ */
 final class CliUtilityTest extends TestCase
 {
     /**
