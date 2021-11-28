@@ -18,18 +18,17 @@ final class Bootstrapper
     ): Container {
         $reflectionOffsetSet = (new ReflectionMethod(Container::class, 'offsetSet'));
 
-        // @TODO we may want to make this one lazy, but for now this is OK
-        $replacedService = $container->getMutantExecutionResultFactory();
-        $factory         = static function () use ($replacedService, $runStaticAnalysis): MutantExecutionResultFactory {
+        $new_container = clone $container;
+        $factory       = static function () use ($container, $runStaticAnalysis): MutantExecutionResultFactory {
             return new RunStaticAnalysisAgainstEscapedMutant(
-                $replacedService,
-                $runStaticAnalysis
+                $container->getMutantExecutionResultFactory(),
+                $runStaticAnalysis,
             );
         };
 
         $reflectionOffsetSet->setAccessible(true);
-        $reflectionOffsetSet->invokeArgs($container, [MutantExecutionResultFactory::class, $factory]);
+        $reflectionOffsetSet->invokeArgs($new_container, [MutantExecutionResultFactory::class, $factory]);
 
-        return $container;
+        return $new_container;
     }
 }
