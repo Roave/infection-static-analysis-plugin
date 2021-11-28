@@ -6,32 +6,15 @@ namespace Roave\InfectionStaticAnalysisTest;
 
 use PHPUnit\Framework\TestCase;
 use Roave\InfectionStaticAnalysis\CliUtility;
+use RuntimeException;
+
+use function sprintf;
 
 /**
  * @covers \Roave\InfectionStaticAnalysis\CliUtility
  */
 final class CliUtilityTest extends TestCase
 {
-    /**
-     * @backupGlobals
-     */
-    public function testGetArgumentsReadFromServerSuperGlobals(): void
-    {
-        $_SERVER['argv'] = ['a', 'b', 'c'];
-
-        self::assertSame(['a', 'b', 'c'], CliUtility::getArguments());
-    }
-
-    /**
-     * @backupGlobals
-     */
-    public function testGetArgumentsReturnsAnEmptyArrayAsDefault(): void
-    {
-        $_SERVER['argv'] = null;
-
-        self::assertSame([], CliUtility::getArguments());
-    }
-
     /**
      * @param list<non-empty-string> $expectedNewArguments
      * @param non-empty-string|null  $expectedArgumentValue
@@ -108,50 +91,67 @@ final class CliUtilityTest extends TestCase
             [
                 ['vendor/bin/roave-infection-static-analysis-plugin'],
                 null,
+                ['vendor/bin/roave-infection-static-analysis-plugin'],
+                'psalm-config',
+            ],
+            [
+                [],
+                null,
+                [],
+                'psalm-config',
+            ],
+            [
+                ['vendor/bin/roave-infection-static-analysis-plugin', '--psalm-config', 'configuration/psalm.xml'],
+                null,
+                ['vendor/bin/roave-infection-static-analysis-plugin', '--psalm-config', 'configuration/psalm.xml'],
+                'psalm',
+            ],
+            [
+                ['vendor/bin/roave-infection-static-analysis-plugin', '--psalm-config', 'configuration/psalm.xml'],
+                null,
+                ['vendor/bin/roave-infection-static-analysis-plugin', '--psalm-config', 'configuration/psalm.xml'],
+                'psalm',
+            ],
+        ];
+    }
+
+    /**
+     * @param list<non-empty-string> $arguments
+     * @param non-empty-string       $argument
+     *
+     * @dataProvider provideExtractionMissingValueData
+     */
+    public function testExtractArgumentThrowsForMissingValue(
+        array $arguments,
+        string $argument
+    ): void {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage(sprintf('Please provide a value for "%s" argument.', $argument));
+
+        CliUtility::extractArgument($arguments, $argument);
+    }
+
+    /**
+     * @return list<array{0: list<non-empty-string>, 1: non-empty-string}>
+     */
+    public function provideExtractionMissingValueData(): array
+    {
+        return [
+            [
                 ['vendor/bin/roave-infection-static-analysis-plugin', '--psalm-config'],
                 'psalm-config',
             ],
             [
-                ['vendor/bin/roave-infection-static-analysis-plugin'],
-                null,
                 ['vendor/bin/roave-infection-static-analysis-plugin', '--psalm-config='],
                 'psalm-config',
             ],
             [
-                ['vendor/bin/roave-infection-static-analysis-plugin'],
-                null,
                 ['vendor/bin/roave-infection-static-analysis-plugin', '--psalm-config=""'],
                 'psalm-config',
             ],
             [
-                ['vendor/bin/roave-infection-static-analysis-plugin'],
-                null,
                 ['vendor/bin/roave-infection-static-analysis-plugin', '--psalm-config="'],
                 'psalm-config',
-            ],
-            [
-                ['vendor/bin/roave-infection-static-analysis-plugin'],
-                null,
-                ['vendor/bin/roave-infection-static-analysis-plugin'],
-                'psalm-config',
-            ],
-            [
-                [],
-                null,
-                [],
-                'psalm-config',
-            ],
-            [
-                ['vendor/bin/roave-infection-static-analysis-plugin', '--psalm-config', 'configuration/psalm.xml'],
-                null,
-                ['vendor/bin/roave-infection-static-analysis-plugin', '--psalm-config', 'configuration/psalm.xml'],
-                'psalm',
-            ],
-            [
-                ['vendor/bin/roave-infection-static-analysis-plugin', '--psalm-config', 'configuration/psalm.xml'],
-                null,
-                ['vendor/bin/roave-infection-static-analysis-plugin', '--psalm-config', 'configuration/psalm.xml'],
-                'psalm',
             ],
         ];
     }

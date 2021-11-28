@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Roave\InfectionStaticAnalysis;
 
+use RuntimeException;
+
 use function array_values;
+use function sprintf;
 use function strpos;
 use function substr;
 
@@ -18,15 +21,6 @@ final class CliUtility
     }
 
     /**
-     * @return list<non-empty-string>
-     */
-    public static function getArguments(): array
-    {
-        /** @var list<non-empty-string> */
-        return $_SERVER['argv'] ?? [];
-    }
-
-    /**
      * @param list<non-empty-string> $arguments
      * @param non-empty-string       $argument
      *
@@ -36,9 +30,11 @@ final class CliUtility
     {
         $lookup = '--' . $argument;
 
-        $result = null;
+        $result  = null;
+        $present = false;
         foreach ($arguments as $index => $arg) {
             if ($arg === $lookup) {
+                $present = true;
                 unset($arguments[$index]);
                 // grab the next argument in the list
                 $value = $arguments[$index + 1] ?? null;
@@ -55,6 +51,7 @@ final class CliUtility
             // if the argument starts with `--argument-name=`
             // we consider anything after '=' to be the value
             if (strpos($arg, $lookup . '=') === 0) {
+                $present = true;
                 unset($arguments[$index]);
 
                 $result = substr($arg, 15);
@@ -63,11 +60,12 @@ final class CliUtility
         }
 
         $arguments = array_values($arguments);
+        $value     = self::removeSurroundingQuites($result);
+        if ($present && $value === null) {
+            throw new RuntimeException(sprintf('Please provide a value for "%s" argument.', $argument));
+        }
 
-        return [
-            $arguments,
-            self::removeSurroundingQuites($result),
-        ];
+        return [$arguments, $value];
     }
 
     /**

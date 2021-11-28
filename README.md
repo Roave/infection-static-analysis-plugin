@@ -28,12 +28,10 @@ vendor/bin/roave-infection-static-analysis-plugin
 
 The `roave-infection-static-analysis-plugin` binary accepts all of `infection` flags and arguments, and an additional `--psalm-config` argument.
 
-Using `--psalm-config`, you can specify the psalm configuration file to use when analysing generated mutation,
-or the directory containing the psalm configuration file:
+Using `--psalm-config`, you can specify the psalm configuration file to use when analysing the generated mutations:
 
 ```sh
-vendor/bin/roave-infection-static-analysis-plugin --psalm-config config/psalm.xml # configuration file.
-vendor/bin/roave-infection-static-analysis-plugin --psalm-config="config/" # directory containing the configuration file.
+vendor/bin/roave-infection-static-analysis-plugin --psalm-config config/psalm.xml
 ```
 
 ## Background

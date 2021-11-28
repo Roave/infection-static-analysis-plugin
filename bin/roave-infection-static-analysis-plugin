@@ -59,7 +59,8 @@ use function var_export;
         define('PHP_PARSER_VERSION', Versions::getVersion('nikic/php-parser'));
     }
 
-    $arguments = CliUtility::getArguments();
+    /** @var list<non-empty-string> */
+    $arguments = $_SERVER['argv'] ?? [];
     [$arguments, $configuration] = CliUtility::extractArgument($arguments, 'psalm-config');
 
     $makeAnalyzer = static function () use ($configuration, $projectPath): ProjectAnalyzer {
