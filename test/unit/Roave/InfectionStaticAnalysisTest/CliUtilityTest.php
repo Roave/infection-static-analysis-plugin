@@ -89,6 +89,18 @@ final class CliUtilityTest extends TestCase
                 'psalm-config',
             ],
             [
+                ['vendor/bin/roave-infection-static-analysis-plugin', '--psalm-config=foo'],
+                'configuration/psalm.xml',
+                ['vendor/bin/roave-infection-static-analysis-plugin', '--psalm-config', 'configuration/psalm.xml', '--psalm-config=foo'],
+                'psalm-config',
+            ],
+            [
+                ['vendor/bin/roave-infection-static-analysis-plugin', '--psalm-config', 'foo'],
+                'configuration/psalm.xml',
+                ['vendor/bin/roave-infection-static-analysis-plugin', '--psalm-config=configuration/psalm.xml', '--psalm-config', 'foo'],
+                'psalm-config',
+            ],
+            [
                 ['vendor/bin/roave-infection-static-analysis-plugin'],
                 null,
                 ['vendor/bin/roave-infection-static-analysis-plugin'],
