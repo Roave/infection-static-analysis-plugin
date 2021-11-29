@@ -18,17 +18,16 @@ final class Bootstrapper
     ): Container {
         $reflectionOffsetSet = (new ReflectionMethod(Container::class, 'offsetSet'));
 
-        $new_container = clone $container;
-        $factory       = static function () use ($container, $runStaticAnalysis): MutantExecutionResultFactory {
+        $factory = static function (Container $container) use ($runStaticAnalysis): MutantExecutionResultFactory {
             return new RunStaticAnalysisAgainstEscapedMutant(
-                $container->getMutantExecutionResultFactory(),
+                new MutantExecutionResultFactory($container->getTestFrameworkAdapter()),
                 $runStaticAnalysis,
             );
         };
 
         $reflectionOffsetSet->setAccessible(true);
-        $reflectionOffsetSet->invokeArgs($new_container, [MutantExecutionResultFactory::class, $factory]);
+        $reflectionOffsetSet->invokeArgs($container, [MutantExecutionResultFactory::class, $factory]);
 
-        return $new_container;
+        return $container;
     }
 }
