@@ -5,7 +5,6 @@
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
     name="Example Psalm config with recommended defaults"
     totallyTyped="true"
-    allowPhpStormGenerics="true"
 >
     <projectFiles>
         <directory name="bin"/>
