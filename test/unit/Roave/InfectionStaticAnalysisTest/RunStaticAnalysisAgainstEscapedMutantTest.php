@@ -14,6 +14,7 @@ use Infection\PhpParser\MutatedNode;
 use Infection\Process\MutantProcess;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 use Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant;
 use Roave\InfectionStaticAnalysis\RunStaticAnalysisAgainstEscapedMutant;
 use Symfony\Component\Process\Process;
@@ -73,11 +74,16 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
             'output',
             DetectionStatus::KILLED,
             now('diff'),
+            'a-hash',
             'AssignmentEqual',
             '/tmp/my-file',
             1,
+            10,
+            2,
+            8,
             now('code'),
-            now('mutated code')
+            now('mutated code'),
+            []
         );
 
         $this->nextFactory->expects(self::once())
@@ -102,11 +108,16 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
             'output',
             DetectionStatus::ESCAPED,
             now('diff'),
+            'a-hash',
             'AssignmentEqual',
             '/tmp/my-file',
             1,
+            10,
+            2,
+            8,
             now('code'),
-            now('mutated code')
+            now('mutated code'),
+            []
         );
 
         $this->nextFactory->expects(self::once())
@@ -119,12 +130,23 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
         self::assertEquals($nextFactoryResult->getMutatedCode(), $result->getMutatedCode());
         self::assertEquals($nextFactoryResult->getOriginalCode(), $result->getOriginalCode());
         self::assertEquals($nextFactoryResult->getOriginalStartingLine(), $result->getOriginalStartingLine());
+        self::assertEquals($nextFactoryResult->getOriginalEndingLine(), $result->getOriginalEndingLine());
         self::assertEquals($nextFactoryResult->getOriginalFilePath(), $result->getOriginalFilePath());
         self::assertEquals($nextFactoryResult->getMutatorName(), $result->getMutatorName());
         self::assertEquals($nextFactoryResult->getMutantDiff(), $result->getMutantDiff());
+        self::assertEquals($nextFactoryResult->getMutantHash(), $result->getMutantHash());
         self::assertEquals($nextFactoryResult->getProcessOutput(), $result->getProcessOutput());
         self::assertEquals($nextFactoryResult->getProcessCommandLine(), $result->getProcessCommandLine());
         self::assertSame(DetectionStatus::KILLED, $result->getDetectionStatus());
+
+        $reflectionOriginalStartFileLocation = new ReflectionProperty(MutantExecutionResult::class, 'originalStartFilePosition');
+        $reflectionOriginalEndFilePosition   = new ReflectionProperty(MutantExecutionResult::class, 'originalEndFilePosition');
+
+        $reflectionOriginalStartFileLocation->setAccessible(true);
+        $reflectionOriginalEndFilePosition->setAccessible(true);
+
+        self::assertSame(2, $reflectionOriginalStartFileLocation->getValue($nextFactoryResult));
+        self::assertSame(8, $reflectionOriginalEndFilePosition->getValue($nextFactoryResult));
     }
 
     public function testWillNotKillMutantsThatEscapedAndPassedStaticAnalysis(): void
@@ -138,11 +160,16 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
             'output',
             DetectionStatus::ESCAPED,
             now('diff'),
+            'a-hash',
             'AssignmentEqual',
             '/tmp/my-file',
             1,
+            10,
+            2,
+            8,
             now('code'),
-            now('mutated code')
+            now('mutated code'),
+            []
         );
 
         $this->nextFactory->expects(self::once())
