@@ -7,7 +7,7 @@
     "logs": {
         "text": "php://stderr",
         "stryker": {
-            "report": "/^\\d+\\.\\d+\\.$/"
+            "report": "/\\d+\\.\\d+\\./"
         }
     },
     "minMsi": 100,
