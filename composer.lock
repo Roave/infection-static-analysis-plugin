@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce331bf2089ac050897942a76aff65a4",
+    "content-hash": "f58fcba114c316ac7d0aa989bb207d58",
     "packages": [
         {
             "name": "amphp/amp",
@@ -892,7 +892,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2022-01-11T20:49:48+00:00"
+            "time": "2022-01-11T20:49:25+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
