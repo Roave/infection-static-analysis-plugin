@@ -14,7 +14,7 @@
     ],
     "require": {
         "php": "~7.4.7|~8.0.0|~8.1.0",
-        "infection/infection": "0.26.3",
+        "infection/infection": "0.26.4",
         "ocramius/package-versions": "^1.9.0 || ^2.0.0",
         "sanmai/later": "^0.1.2",
         "vimeo/psalm": "^4.19.0"
