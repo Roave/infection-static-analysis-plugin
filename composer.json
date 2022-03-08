@@ -21,7 +21,7 @@
     },
     "require-dev": {
         "doctrine/coding-standard": "^9.0.0",
-        "phpunit/phpunit": "^9.5.17"
+        "phpunit/phpunit": "^9.5.18"
     },
     "autoload": {
         "psr-4": {
