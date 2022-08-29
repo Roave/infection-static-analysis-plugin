@@ -22,15 +22,15 @@ final class BootstrapperTest extends TestCase
         $runStaticAnalysis = $this->createMock(RunStaticAnalysisAgainstMutant::class);
         Bootstrapper::bootstrap(
             Container::create(),
-            $runStaticAnalysis
+            $runStaticAnalysis,
         );
 
         self::assertInstanceOf(
             RunStaticAnalysisAgainstEscapedMutant::class,
             Bootstrapper::bootstrap(
                 Container::create(),
-                $runStaticAnalysis
-            )->getMutantExecutionResultFactory()
+                $runStaticAnalysis,
+            )->getMutantExecutionResultFactory(),
         );
     }
 }

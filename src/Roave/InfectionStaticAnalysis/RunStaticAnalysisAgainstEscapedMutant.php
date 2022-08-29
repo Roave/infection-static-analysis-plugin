@@ -22,18 +22,13 @@ use function Later\later;
  */
 class RunStaticAnalysisAgainstEscapedMutant extends MutantExecutionResultFactory
 {
-    private MutantExecutionResultFactory $next;
-    private RunStaticAnalysisAgainstMutant $runStaticAnalysis;
     private ReflectionProperty $reflectionOriginalStartFileLocation;
     private ReflectionProperty $reflectionOriginalEndFilePosition;
 
     public function __construct(
-        MutantExecutionResultFactory $next,
-        RunStaticAnalysisAgainstMutant $runStaticAnalysis
+        private MutantExecutionResultFactory $next,
+        private RunStaticAnalysisAgainstMutant $runStaticAnalysis,
     ) {
-        $this->next              = $next;
-        $this->runStaticAnalysis = $runStaticAnalysis;
-
         $this->reflectionOriginalStartFileLocation = new ReflectionProperty(MutantExecutionResult::class, 'originalStartFilePosition');
         $this->reflectionOriginalEndFilePosition   = new ReflectionProperty(MutantExecutionResult::class, 'originalEndFilePosition');
 
@@ -73,7 +68,7 @@ class RunStaticAnalysisAgainstEscapedMutant extends MutantExecutionResultFactory
             $originalEndFilePosition,
             later(static fn () => yield $result->getOriginalCode()),
             later(static fn () => yield $result->getMutatedCode()),
-            $result->getTests()
+            $result->getTests(),
         );
     }
 }

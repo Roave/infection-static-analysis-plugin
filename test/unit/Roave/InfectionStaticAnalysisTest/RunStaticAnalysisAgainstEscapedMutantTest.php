@@ -46,16 +46,16 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
                 'Plus',
                 array_combine(
                     MutationAttributeKeys::ALL,
-                    array_map('strlen', MutationAttributeKeys::ALL)
+                    array_map('strlen', MutationAttributeKeys::ALL),
                 ),
                 '',
                 MutatedNode::wrap([]),
                 0,
-                []
+                [],
             ),
             now('code'),
             now(''),
-            now('')
+            now(''),
         );
 
         $this->process        = new MutantProcess(new Process(['echo', 'hi']), $this->mutant);
@@ -83,7 +83,7 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
             8,
             now('code'),
             now('mutated code'),
-            []
+            [],
         );
 
         $this->nextFactory->expects(self::once())
@@ -117,7 +117,7 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
             8,
             now('code'),
             now('mutated code'),
-            []
+            [],
         );
 
         $this->nextFactory->expects(self::once())
@@ -169,7 +169,7 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
             8,
             now('code'),
             now('mutated code'),
-            []
+            [],
         );
 
         $this->nextFactory->expects(self::once())

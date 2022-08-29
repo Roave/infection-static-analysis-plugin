@@ -11,9 +11,7 @@ use function sprintf;
 use function strpos;
 use function substr;
 
-/**
- * @internal
- */
+/** @internal */
 final class CliUtility
 {
     private function __construct()
@@ -68,10 +66,8 @@ final class CliUtility
         return [$arguments, $value];
     }
 
-    /**
-     * @return non-empty-string|null
-     */
-    private static function removeSurroundingQuites(?string $argument): ?string
+    /** @return non-empty-string|null */
+    private static function removeSurroundingQuites(string|null $argument): string|null
     {
         if ($argument === null || $argument === '') {
             return null;
