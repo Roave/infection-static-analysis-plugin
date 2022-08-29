@@ -43,7 +43,7 @@ class RunStaticAnalysisAgainstMutant
             $path,
             $projectAnalyzer->getCodebase()
                 ->file_reference_provider
-                ->getExistingIssues()
+                ->getExistingIssues(),
         );
     }
 }

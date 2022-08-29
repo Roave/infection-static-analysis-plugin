@@ -10,9 +10,7 @@ use RuntimeException;
 
 use function sprintf;
 
-/**
- * @covers \Roave\InfectionStaticAnalysis\CliUtility
- */
+/** @covers \Roave\InfectionStaticAnalysis\CliUtility */
 final class CliUtilityTest extends TestCase
 {
     /**
@@ -25,9 +23,9 @@ final class CliUtilityTest extends TestCase
      */
     public function testExtractArgument(
         array $expectedNewArguments,
-        ?string $expectedArgumentValue,
+        string|null $expectedArgumentValue,
         array $arguments,
-        string $argument
+        string $argument,
     ): void {
         $result = CliUtility::extractArgument($arguments, $argument);
 
@@ -135,7 +133,7 @@ final class CliUtilityTest extends TestCase
      */
     public function testExtractArgumentThrowsForMissingValue(
         array $arguments,
-        string $argument
+        string $argument,
     ): void {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(sprintf('Please provide a value for "%s" argument.', $argument));
@@ -143,9 +141,7 @@ final class CliUtilityTest extends TestCase
         CliUtility::extractArgument($arguments, $argument);
     }
 
-    /**
-     * @return list<array{0: list<non-empty-string>, 1: non-empty-string}>
-     */
+    /** @return list<array{0: list<non-empty-string>, 1: non-empty-string}> */
     public function provideExtractionMissingValueData(): array
     {
         return [

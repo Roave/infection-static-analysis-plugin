@@ -14,7 +14,7 @@ final class Bootstrapper
 {
     public static function bootstrap(
         Container $container,
-        RunStaticAnalysisAgainstMutant $runStaticAnalysis
+        RunStaticAnalysisAgainstMutant $runStaticAnalysis,
     ): Container {
         $reflectionOffsetSet = (new ReflectionMethod(Container::class, 'offsetSet'));
 

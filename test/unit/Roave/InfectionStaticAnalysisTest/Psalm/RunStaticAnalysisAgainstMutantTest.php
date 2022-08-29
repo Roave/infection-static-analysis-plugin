@@ -98,7 +98,7 @@ PHP;
 
         $mutationAttributes = array_combine(
             MutationAttributeKeys::ALL,
-            array_map('strlen', MutationAttributeKeys::ALL)
+            array_map('strlen', MutationAttributeKeys::ALL),
         );
 
         $this->mutantWithValidCode = new Mutant(
@@ -111,11 +111,11 @@ PHP;
                 '',
                 MutatedNode::wrap([]),
                 0,
-                []
+                [],
             ),
             now($validCode),
             now(''),
-            now('')
+            now(''),
         );
 
         $this->mutantWithInvalidCode = new Mutant(
@@ -128,11 +128,11 @@ PHP;
                 '',
                 MutatedNode::wrap([]),
                 0,
-                []
+                [],
             ),
             now($invalidCode),
             now(''),
-            now('')
+            now(''),
         );
 
         $this->mutantWithValidCodeReferencingProjectFiles = new Mutant(
@@ -145,11 +145,11 @@ PHP;
                 '',
                 MutatedNode::wrap([]),
                 0,
-                []
+                [],
             ),
             now($validCodeReferencingProjectFiles),
             now(''),
-            now('')
+            now(''),
         );
 
         $this->mutantWithValidCodeReferencingReflectionApi = new Mutant(
@@ -162,11 +162,11 @@ PHP;
                 '',
                 MutatedNode::wrap([]),
                 0,
-                []
+                [],
             ),
             now($validCodeReferencingProjectFiles),
             now(''),
-            now('')
+            now(''),
         );
 
         if (! defined('PSALM_VERSION')) {
@@ -182,7 +182,7 @@ PHP;
 
             $config = Config::getConfigForPath(
                 self::PSALM_WORKING_DIRECTORY,
-                self::PSALM_WORKING_DIRECTORY
+                self::PSALM_WORKING_DIRECTORY,
             );
 
             $config->setIncludeCollector(new IncludeCollector());
@@ -190,7 +190,7 @@ PHP;
             return new ProjectAnalyzer(
                 $config,
                 new Providers(new FileProvider()),
-                new ReportOptions()
+                new ReportOptions(),
             );
         });
     }
@@ -209,7 +209,7 @@ PHP;
     {
         $psalmConfig = Config::getConfigForPath(
             self::PSALM_WORKING_DIRECTORY,
-            self::PSALM_WORKING_DIRECTORY
+            self::PSALM_WORKING_DIRECTORY,
         );
 
         $psalmConfig->setIncludeCollector(new IncludeCollector());
@@ -221,7 +221,7 @@ PHP;
     {
         $psalmConfig = Config::getConfigForPath(
             self::PSALM_WORKING_DIRECTORY,
-            self::PSALM_WORKING_DIRECTORY
+            self::PSALM_WORKING_DIRECTORY,
         );
 
         $psalmConfig->setIncludeCollector(new IncludeCollector());
@@ -233,7 +233,7 @@ PHP;
     {
         $psalmConfig = Config::getConfigForPath(
             self::PSALM_WORKING_DIRECTORY,
-            self::PSALM_WORKING_DIRECTORY
+            self::PSALM_WORKING_DIRECTORY,
         );
 
         $psalmConfig->setIncludeCollector(new IncludeCollector());
@@ -245,7 +245,7 @@ PHP;
     {
         $psalmConfig = Config::getConfigForPath(
             self::PSALM_WORKING_DIRECTORY,
-            self::PSALM_WORKING_DIRECTORY
+            self::PSALM_WORKING_DIRECTORY,
         );
 
         $psalmConfig->setIncludeCollector(new IncludeCollector());
