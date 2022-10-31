@@ -15,13 +15,13 @@
     "require": {
         "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
         "infection/infection": "0.26.16",
-        "ocramius/package-versions": "^2.0.0",
+        "ocramius/package-versions": "^2.7.0",
         "sanmai/later": "^0.1.2",
         "vimeo/psalm": "^4.29.0"
     },
     "require-dev": {
         "doctrine/coding-standard": "^10.0.0",
-        "phpunit/phpunit": "^9.5.25"
+        "phpunit/phpunit": "^9.5.26"
     },
     "autoload": {
         "psr-4": {
