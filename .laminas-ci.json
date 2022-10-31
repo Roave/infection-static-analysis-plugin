@@ -1,0 +1,7 @@
+{
+  "exclude": [
+    {
+      "name": "Infection [8.0, locked]"
+    }
+  ]
+}

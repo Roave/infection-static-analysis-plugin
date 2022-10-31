@@ -8,7 +8,7 @@ use RuntimeException;
 
 use function array_values;
 use function sprintf;
-use function strpos;
+use function str_starts_with;
 use function substr;
 
 /** @internal */
@@ -37,7 +37,7 @@ final class CliUtility
                 // grab the next argument in the list
                 $value = $arguments[$index + 1] ?? null;
                 // if the argument is not a flag/argument name ( starts with - )
-                if ($value !== null && strpos($value, '-') !== 0) {
+                if ($value !== null && ! str_starts_with($value, '-')) {
                     // consider it the value, and remove it from the list.
                     $result = $value;
                     unset($arguments[$index + 1]);
@@ -48,7 +48,7 @@ final class CliUtility
 
             // if the argument starts with `--argument-name=`
             // we consider anything after '=' to be the value
-            if (strpos($arg, $lookup . '=') === 0) {
+            if (str_starts_with($arg, $lookup . '=')) {
                 $present = true;
                 unset($arguments[$index]);
 
