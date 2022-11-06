@@ -17,7 +17,7 @@
         "infection/infection": "0.26.16",
         "ocramius/package-versions": "^2.7.0",
         "sanmai/later": "^0.1.2",
-        "vimeo/psalm": "^4.29.0"
+        "vimeo/psalm": "^4.30.0"
     },
     "require-dev": {
         "doctrine/coding-standard": "^10.0.0",
