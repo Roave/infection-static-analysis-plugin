@@ -142,9 +142,6 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
         $reflectionOriginalStartFileLocation = new ReflectionProperty(MutantExecutionResult::class, 'originalStartFilePosition');
         $reflectionOriginalEndFilePosition   = new ReflectionProperty(MutantExecutionResult::class, 'originalEndFilePosition');
 
-        $reflectionOriginalStartFileLocation->setAccessible(true);
-        $reflectionOriginalEndFilePosition->setAccessible(true);
-
         self::assertSame(2, $reflectionOriginalStartFileLocation->getValue($nextFactoryResult));
         self::assertSame(8, $reflectionOriginalEndFilePosition->getValue($nextFactoryResult));
     }

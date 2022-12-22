@@ -31,9 +31,6 @@ class RunStaticAnalysisAgainstEscapedMutant extends MutantExecutionResultFactory
     ) {
         $this->reflectionOriginalStartFileLocation = new ReflectionProperty(MutantExecutionResult::class, 'originalStartFilePosition');
         $this->reflectionOriginalEndFilePosition   = new ReflectionProperty(MutantExecutionResult::class, 'originalEndFilePosition');
-
-        $this->reflectionOriginalStartFileLocation->setAccessible(true);
-        $this->reflectionOriginalEndFilePosition->setAccessible(true);
     }
 
     public function createFromProcess(MutantProcess $mutantProcess): MutantExecutionResult
