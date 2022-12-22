@@ -25,8 +25,6 @@ final class Bootstrapper
             );
         };
 
-        /** @infection-ignore-all */
-        $reflectionOffsetSet->setAccessible(true);
         $reflectionOffsetSet->invokeArgs($container, [MutantExecutionResultFactory::class, $factory]);
 
         return $container;
