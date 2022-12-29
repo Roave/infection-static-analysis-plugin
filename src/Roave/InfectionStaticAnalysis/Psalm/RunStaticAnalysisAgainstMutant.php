@@ -17,12 +17,10 @@ use function count;
  */
 class RunStaticAnalysisAgainstMutant
 {
-    private ProjectAnalyzer $projectAnalyzer;
     private bool $alreadyVisitedStubs = false;
 
-    public function __construct(ProjectAnalyzer $projectAnalyzer)
+    public function __construct(private ProjectAnalyzer $projectAnalyzer)
     {
-        $this->projectAnalyzer = $projectAnalyzer;
     }
 
     public function isMutantStillValidAccordingToStaticAnalysis(Mutant $mutant): bool
@@ -33,7 +31,7 @@ class RunStaticAnalysisAgainstMutant
 
         $codebase->invalidateInformationForFile(
             $mutant->getMutation()
-                ->getOriginalFilePath()
+                ->getOriginalFilePath(),
         );
 
         $codebase->addFilesToAnalyze([$path => $path]);

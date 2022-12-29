@@ -192,7 +192,7 @@ PHP;
 
         $config = Config::getConfigForPath(
             self::PSALM_WORKING_DIRECTORY,
-            self::PSALM_WORKING_DIRECTORY
+            self::PSALM_WORKING_DIRECTORY,
         );
 
         $config->setIncludeCollector(new IncludeCollector());
@@ -230,7 +230,7 @@ PHP;
 function add(int $a, int $b): int {
     return $a + $b;
 }
-PHP
+PHP,
         )));
     }
 
@@ -249,7 +249,7 @@ PHP
 function add(int $a, int $b): int {
     return $a - $b;
 }
-PHP
+PHP,
         )));
     }
 
@@ -263,7 +263,7 @@ PHP
 function add(array $input): int {
     return count((new \Roave\InfectionStaticAnalysis\Stub\ArrayFilter())->makeAList($input));
 }
-PHP
+PHP,
         )));
     }
 
@@ -278,7 +278,7 @@ function hasMethod(object $input, string $method): bool {
     return (new ReflectionClass($input))
         ->hasMethod($method);
 }
-PHP
+PHP,
         )));
     }
 
@@ -289,23 +289,25 @@ PHP
 
         self::assertTrue(
             $this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($declaresClassSymbol),
-            'Class symbol was seen for the first time ever - no static analysis issues - mutation is legit'
+            'Class symbol was seen for the first time ever - no static analysis issues - mutation is legit',
         );
         self::assertTrue(
             $this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($reDeclaresClassSymbol),
-            'Class symbol was seen for the second time (on a new file) - no static analysis issues - mutation is legit'
+            'Class symbol was seen for the second time (on a new file) - no static analysis issues - mutation is legit',
         );
     }
 
     public function testWillConsiderMutantOfAlreadyReferencedScannedClassAsValid(): void
     {
-        $usesSourceDeclaredClassSymbol       = $this->makeMutant('uses-source-declared-class-symbol-', <<<'PHP'
+        $usesSourceDeclaredClassSymbol       = $this->makeMutant(
+            'uses-source-declared-class-symbol-',
+            <<<'PHP'
 <?php
 
 function makeArrayFilter(): array {
     return (new \Roave\InfectionStaticAnalysis\Stub\ArrayFilter())->makeAList(['a' => 'b']);
 }
-PHP
+PHP,
         );
         $reDeclaresSourceDeclaredClassSymbol = $this->makeMutant(
             're-declares-source-declared-class-symbol-',
@@ -317,18 +319,17 @@ namespace Roave\InfectionStaticAnalysis\Stub;
 final class ArrayFilter {
     function makeAList(): int { return 1; }
 }
-PHP
-            ,
-            realpath(__DIR__ . '/../../../../../src/Roave/InfectionStaticAnalysis/Stub/ArrayFilter.php')
+PHP,
+            realpath(__DIR__ . '/../../../../../src/Roave/InfectionStaticAnalysis/Stub/ArrayFilter.php'),
         );
 
         self::assertTrue(
             $this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($usesSourceDeclaredClassSymbol),
-            'Class symbol was seen for the first time in sources, through indirect scan'
+            'Class symbol was seen for the first time in sources, through indirect scan',
         );
         self::assertTrue(
             $this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($reDeclaresSourceDeclaredClassSymbol),
-            'Class symbol re-declared by the mutant, which is an altered version of it'
+            'Class symbol re-declared by the mutant, which is an altered version of it',
         );
     }
 
@@ -337,7 +338,7 @@ PHP
     {
         self::assertTrue($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($this->makeMutant(
             'reference-to-php-internal-constant-',
-            '<?php return json_encode("foo", JSON_THROW_ON_ERROR);'
+            '<?php return json_encode("foo", JSON_THROW_ON_ERROR);',
         )));
     }
 
@@ -352,7 +353,7 @@ PHP
 function pureTimestamp(\DateTimeImmutable $d): int {
     return $d->getTimestamp();
 }
-PHP
+PHP,
         )));
     }
 
@@ -367,7 +368,7 @@ PHP
 function makeDate(): ?\DateTimeInterface {
     return \DateTimeImmutable::createFromFormat('Y-m-d', '2020-01-01') ?: null;
 }
-PHP
+PHP,
         )));
     }
 
@@ -376,11 +377,11 @@ PHP
     {
         $mutantWithNoPhpCoreReferences = $this->makeMutant(
             'mutant-with-no-php-core-references-',
-            '<?php return 1;'
+            '<?php return 1;',
         );
-        $mutantWithPhpCoreReferences = $this->makeMutant(
+        $mutantWithPhpCoreReferences   = $this->makeMutant(
             'mutant-with-php-core-references-',
-            '<?php return DateTimeImmutable::createFromFormat("Y-m-d", "2021-05-18");'
+            '<?php return DateTimeImmutable::createFromFormat("Y-m-d", "2021-05-18");',
         );
 
         self::assertTrue($this->runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($mutantWithNoPhpCoreReferences));
@@ -395,7 +396,7 @@ PHP
             <<<'PHP'
 <?php 
 class StubImplementation implements \Roave\InfectionStaticAnalysisAsset\PreloadClassStub\Stub {}
-PHP
+PHP,
         )));
     }
 
@@ -404,7 +405,7 @@ PHP
     {
         $config = Config::getConfigForPath(
             __DIR__ . '/../../../../asset/PreloadClassStub',
-            __DIR__ . '/../../../../asset/PreloadClassStub'
+            __DIR__ . '/../../../../asset/PreloadClassStub',
         );
 
         $config->setIncludeCollector(new IncludeCollector());
@@ -412,7 +413,7 @@ PHP
         $runStaticAnalysis = new RunStaticAnalysisAgainstMutant(new ProjectAnalyzer(
             $config,
             new Providers(new FileProvider()),
-            new ReportOptions()
+            new ReportOptions(),
         ));
 
         self::assertTrue($runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($this->makeMutant(
@@ -420,7 +421,7 @@ PHP
             <<<'PHP'
 <?php 
 class StubImplementation implements \Roave\InfectionStaticAnalysisAsset\PreloadClassStub\Stub {}
-PHP
+PHP,
         )));
     }
 
@@ -443,7 +444,7 @@ PHP
         $runStaticAnalysis = new RunStaticAnalysisAgainstMutant(new ProjectAnalyzer(
             $config,
             new Providers(new FileProvider()),
-            new ReportOptions()
+            new ReportOptions(),
         ));
 
         $mutant = $this->makeMutant('usage-of-mutable-stub-class-', '<?php echo "hello";');
@@ -454,7 +455,7 @@ PHP
         // be considered by psalm after the first analysis.
         file_put_contents(
             $mutableProject . '/vendor/composer/autoload_files.php',
-            '<?php throw new \Exception("Psalm should not be scanning this file location again");'
+            '<?php throw new \Exception("Psalm should not be scanning this file location again");',
         );
 
         self::assertTrue($runStaticAnalysis->isMutantStillValidAccordingToStaticAnalysis($mutant));
@@ -469,7 +470,7 @@ PHP
     private function makeMutant(
         string $pathPrefix,
         string $mutatedCode,
-        string $originalFilePath = 'irrelevant'
+        string $originalFilePath = 'irrelevant',
     ): Mutant {
         $mutatedCodePath = tempnam(sys_get_temp_dir(), $pathPrefix);
         file_put_contents($mutatedCodePath, $mutatedCode);
@@ -484,16 +485,16 @@ PHP
                 'Plus',
                 array_combine(
                     MutationAttributeKeys::ALL,
-                    array_map('strlen', MutationAttributeKeys::ALL)
+                    array_map('strlen', MutationAttributeKeys::ALL),
                 ),
                 '',
                 MutatedNode::wrap([]),
                 0,
-                []
+                [],
             ),
             now($mutatedCode),
             now(''),
-            now('')
+            now(''),
         );
     }
 }
