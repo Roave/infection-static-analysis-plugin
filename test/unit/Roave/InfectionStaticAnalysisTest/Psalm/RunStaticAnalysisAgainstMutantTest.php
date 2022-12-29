@@ -363,7 +363,7 @@ PHP
             'usage-of-php-internal-class-static-method-',
             <<<'PHP'
 <?php
-/** @psalm-pure */
+/** @psalm-mutation-free */
 function makeDate(): ?\DateTimeInterface {
     return \DateTimeImmutable::createFromFormat('Y-m-d', '2020-01-01') ?: null;
 }
