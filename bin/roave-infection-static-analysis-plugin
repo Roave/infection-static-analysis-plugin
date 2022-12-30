@@ -63,27 +63,25 @@ use function var_export;
     $arguments = $_SERVER['argv'] ?? [];
     [$arguments, $configuration] = CliUtility::extractArgument($arguments, 'psalm-config');
 
-    $makeAnalyzer = static function () use ($configuration, $projectPath): ProjectAnalyzer {
-        RuntimeCaches::clearAll();
+    RuntimeCaches::clearAll();
 
-        $configuration = $configuration ?? $projectPath;
-        if (is_file($configuration)) {
-            $config = Config::loadFromXMLFile($configuration, $projectPath);
-        } else {
-            $config = Config::getConfigForPath($configuration, $projectPath);
-        }
+    $configuration = $configuration ?? $projectPath;
 
-        $config->setIncludeCollector(new IncludeCollector());
+    if (is_file($configuration)) {
+        $config = Config::loadFromXMLFile($configuration, $projectPath);
+    } else {
+        $config = Config::getConfigForPath($configuration, $projectPath);
+    }
 
-        return new ProjectAnalyzer(
-            $config,
-            new Providers(new FileProvider()),
-            new ReportOptions()
-        );
-    };
+    $config->setIncludeCollector(new IncludeCollector());
 
     (new Application(Bootstrapper::bootstrap(
         Container::create(),
-        new RunStaticAnalysisAgainstMutant($makeAnalyzer)
-    )))->run(new ArgvInput($arguments));
+        new RunStaticAnalysisAgainstMutant(new ProjectAnalyzer(
+            $config,
+            new Providers(new FileProvider()),
+            new ReportOptions()
+        ))
+    )))
+        ->run(new ArgvInput($arguments));
 })();
