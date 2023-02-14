@@ -41,7 +41,7 @@ final class CliUtilityTest extends TestCase
      *     3: non-empty-string
      * }>
      */
-    public function provideExtractionData(): array
+    public static function provideExtractionData(): array
     {
         return [
             [
@@ -142,7 +142,7 @@ final class CliUtilityTest extends TestCase
     }
 
     /** @return list<array{0: list<non-empty-string>, 1: non-empty-string}> */
-    public function provideExtractionMissingValueData(): array
+    public static function provideExtractionMissingValueData(): array
     {
         return [
             [
