@@ -21,10 +21,12 @@ use Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant;
 
 use function array_combine;
 use function array_map;
+use function assert;
 use function copy;
 use function define;
 use function defined;
 use function file_put_contents;
+use function is_string;
 use function Later\now;
 use function mkdir;
 use function realpath;
@@ -400,6 +402,7 @@ PHP,
         string $originalFilePath = 'irrelevant',
     ): Mutant {
         $mutatedCodePath = tempnam(sys_get_temp_dir(), $pathPrefix);
+        assert(is_string($mutatedCodePath));
         file_put_contents($mutatedCodePath, $mutatedCode);
 
         $this->generatedMutantFiles[] = $mutatedCodePath;
