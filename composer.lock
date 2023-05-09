@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b493cb6ea7f2f181f8a21b46767ba18",
+    "content-hash": "7564d7e9ff81a89c6b4e365564c72a71",
     "packages": [
         {
             "name": "amphp/amp",
@@ -902,16 +902,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.26.20",
+            "version": "0.26.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "37dd2f590bec3d0058e11dbeefc8f93fc9132c62"
+                "reference": "9bbe4994d204587e0e27475e6681b66608a690a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/37dd2f590bec3d0058e11dbeefc8f93fc9132c62",
-                "reference": "37dd2f590bec3d0058e11dbeefc8f93fc9132c62",
+                "url": "https://api.github.com/repos/infection/infection/zipball/9bbe4994d204587e0e27475e6681b66608a690a9",
+                "reference": "9bbe4994d204587e0e27475e6681b66608a690a9",
                 "shasum": ""
             },
             "require": {
@@ -1016,7 +1016,7 @@
             ],
             "support": {
                 "issues": "https://github.com/infection/infection/issues",
-                "source": "https://github.com/infection/infection/tree/0.26.20"
+                "source": "https://github.com/infection/infection/tree/0.26.21"
             },
             "funding": [
                 {
@@ -1028,7 +1028,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2023-04-14T21:39:46+00:00"
+            "time": "2023-04-25T19:40:27+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -3457,16 +3457,16 @@
         },
         {
             "name": "phpunit/php-file-iterator",
-            "version": "4.0.1",
+            "version": "4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "fd9329ab3368f59fe1fe808a189c51086bd4b6bd"
+                "reference": "5647d65443818959172645e7ed999217360654b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/fd9329ab3368f59fe1fe808a189c51086bd4b6bd",
-                "reference": "fd9329ab3368f59fe1fe808a189c51086bd4b6bd",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/5647d65443818959172645e7ed999217360654b6",
+                "reference": "5647d65443818959172645e7ed999217360654b6",
                 "shasum": ""
             },
             "require": {
@@ -3505,7 +3505,8 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-file-iterator/issues",
-                "source": "https://github.com/sebastianbergmann/php-file-iterator/tree/4.0.1"
+                "security": "https://github.com/sebastianbergmann/php-file-iterator/security/policy",
+                "source": "https://github.com/sebastianbergmann/php-file-iterator/tree/4.0.2"
             },
             "funding": [
                 {
@@ -3513,7 +3514,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-10T16:53:14+00:00"
+            "time": "2023-05-07T09:13:23+00:00"
         },
         {
             "name": "phpunit/php-invoker",
