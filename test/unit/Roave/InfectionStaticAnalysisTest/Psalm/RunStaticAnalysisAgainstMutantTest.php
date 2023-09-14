@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Roave\InfectionStaticAnalysisTest\Psalm;
 
+use Composer\InstalledVersions;
 use Infection\Mutant\Mutant;
 use Infection\Mutation\Mutation;
 use Infection\Mutation\MutationAttributeKeys;
 use Infection\PhpParser\MutatedNode;
-use PackageVersions\Versions;
 use PHPUnit\Framework\TestCase;
 use Psalm\Config;
 use Psalm\Internal\Analyzer\ProjectAnalyzer;
@@ -110,11 +110,11 @@ PHP;
         file_put_contents($repeatedDeclaredClassSymbolPath, $declaredClassSymbol);
 
         if (! defined('PSALM_VERSION')) {
-            define('PSALM_VERSION', Versions::getVersion('vimeo/psalm'));
+            define('PSALM_VERSION', InstalledVersions::getVersion('vimeo/psalm'));
         }
 
         if (! defined('PHP_PARSER_VERSION')) {
-            define('PHP_PARSER_VERSION', Versions::getVersion('nikic/php-parser'));
+            define('PHP_PARSER_VERSION', InstalledVersions::getVersion('nikic/php-parser'));
         }
 
         RuntimeCaches::clearAll();
