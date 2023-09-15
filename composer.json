@@ -13,11 +13,11 @@
         "bin/roave-infection-static-analysis-plugin"
     ],
     "require": {
-        "php": "~8.1.0 || ~8.2.0",
+        "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+        "composer-runtime-api": "^2.2",
         "infection/infection": "0.27.0",
-        "ocramius/package-versions": "^2.7.0",
         "sanmai/later": "^0.1.2",
-        "vimeo/psalm": "^4.30.0 || ^5.0.0"
+        "vimeo/psalm": "^4.30.0 || ^5.15"
     },
     "require-dev": {
         "doctrine/coding-standard": "^12.0.0",

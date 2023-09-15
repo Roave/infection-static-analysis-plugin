@@ -5,9 +5,9 @@ declare(strict_types=1);
 
 namespace Roave\InfectionStaticAnalysis\Application;
 
+use Composer\InstalledVersions;
 use Infection\Console\Application;
 use Infection\Container;
-use PackageVersions\Versions;
 use Psalm\Config;
 use Psalm\Internal\Analyzer\ProjectAnalyzer;
 use Psalm\Internal\IncludeCollector;
@@ -52,11 +52,11 @@ use function var_export;
     require_once $projectPath . '/vendor/autoload.php';
 
     if (! defined('PSALM_VERSION')) {
-        define('PSALM_VERSION', Versions::getVersion('vimeo/psalm'));
+        define('PSALM_VERSION', InstalledVersions::getVersion('vimeo/psalm'));
     }
 
     if (! defined('PHP_PARSER_VERSION')) {
-        define('PHP_PARSER_VERSION', Versions::getVersion('nikic/php-parser'));
+        define('PHP_PARSER_VERSION', InstalledVersions::getVersion('nikic/php-parser'));
     }
 
     /** @var list<non-empty-string> */
