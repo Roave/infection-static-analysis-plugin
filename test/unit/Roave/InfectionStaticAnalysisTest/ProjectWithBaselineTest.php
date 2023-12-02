@@ -11,7 +11,7 @@ class ProjectWithBaselineTest extends TestCase
 {
     public function setUp(): void
     {
-        $process = new Process(['composer', 'update']);
+        $process = new Process(['composer', 'install']);
         $process->setWorkingDirectory(__DIR__ . '/../../../asset/ProjectWithPsalmBaseline');
 
         $process->run();
