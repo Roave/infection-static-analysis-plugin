@@ -68,8 +68,8 @@ class RunStaticAnalysisAgainstMutant
     public function formatLastIssues(): string
     {
         return implode(
-            "\n\n",
-            array_map(static fn (IssueData $issueData) => ($issueData->type . ': ' . $issueData->message .  "\n{$issueData->file_name}:{$issueData->line_from}"), $this->psalmIssuesFromLastMutant),
+            ", ",
+            array_map(static fn (IssueData $issueData) => ($issueData->type . ': ' . $issueData->message), $this->psalmIssuesFromLastMutant),
         );
     }
 }
