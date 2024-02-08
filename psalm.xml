@@ -5,9 +5,11 @@
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
     name="Example Psalm config with recommended defaults"
     errorLevel="1"
+    findUnusedBaselineEntry="true"
+    findUnusedCode="true"
 >
     <projectFiles>
-        <directory name="bin"/>
+        <file name="bin/roave-infection-static-analysis-plugin"/>
         <directory name="src"/>
         <directory name="test/unit"/>
         <ignoreFiles>
@@ -63,11 +65,11 @@
             </errorLevel>
         </PropertyNotSetInConstructor>
 
-        <!-- composer/package-versions-deprecated is in use by design -->
-        <DeprecatedClass>
+        <!-- phpunit tests are entry points - they are generally unused -->
+        <UnusedClass>
             <errorLevel type="suppress">
-                <referencedClass name="PackageVersions\Versions"/>
+                <directory name="test"/>
             </errorLevel>
-        </DeprecatedClass>
+        </UnusedClass>
     </issueHandlers>
 </psalm>

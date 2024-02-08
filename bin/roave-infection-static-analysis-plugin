@@ -49,7 +49,7 @@ use function var_export;
         ));
     })();
 
-    require_once $projectPath . '/vendor/autoload.php';
+    require_once __DIR__ . '/../vendor/autoload.php';
 
     if (! defined('PSALM_VERSION')) {
         define('PSALM_VERSION', InstalledVersions::getVersion('vimeo/psalm'));
@@ -65,7 +65,7 @@ use function var_export;
 
     RuntimeCaches::clearAll();
 
-    $configuration = $configuration ?? $projectPath;
+    $configuration ??= $projectPath;
 
     if (is_file($configuration)) {
         $config = Config::loadFromXMLFile($configuration, $projectPath);

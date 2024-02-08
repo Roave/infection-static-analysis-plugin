@@ -12,12 +12,8 @@ use function str_starts_with;
 use function substr;
 
 /** @internal */
-final class CliUtility
+abstract class CliUtility
 {
-    private function __construct()
-    {
-    }
-
     /**
      * @param list<non-empty-string> $arguments
      * @param non-empty-string       $argument
