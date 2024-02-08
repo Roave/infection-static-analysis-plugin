@@ -9,9 +9,12 @@
     <projectFiles>
         <directory name="bin"/>
         <directory name="src"/>
-        <directory name="test"/>
+        <directory name="test/unit"/>
+        <ignoreFiles>
+            <directory name="test/asset/ProjectWithPsalmBaseline/src"/>
+        </ignoreFiles>
     </projectFiles>
-
+    
     <issueHandlers>
         <!--
         we do a loooooooot of kinky stuff with infection's internals: that's by "design",
