@@ -14,7 +14,7 @@ class ProjectWithBaselineTest extends TestCase
         $process = new Process(['composer', 'install']);
         $process->setWorkingDirectory(__DIR__ . '/../../../asset/ProjectWithPsalmBaseline');
 
-        $process->run();
+        $process->mustRun();
     }
 
     public function testItSpuriouslyReportsMutantAsKilledWithPsalmBaseline(): void
