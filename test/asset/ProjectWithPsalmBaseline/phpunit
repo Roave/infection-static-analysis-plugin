@@ -1,0 +1,11 @@
+#!/usr/bin/env php
+<?php
+/**
+ * This file aliases the PHPUnit binary in the current directory.
+ *
+ * Without a discoverable executable, the `roave/infection-static-analysis`
+ * `bin/roave-infection-static-analysis-plugin` executable will otherwise
+ * fail to start up. It also emulates minimal autoloading.
+ */
+
+require __DIR__ . '/../../../vendor/bin/phpunit';

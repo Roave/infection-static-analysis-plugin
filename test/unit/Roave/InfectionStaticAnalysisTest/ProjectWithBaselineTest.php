@@ -9,20 +9,12 @@ use Symfony\Component\Process\Process;
 
 class ProjectWithBaselineTest extends TestCase
 {
-    public function setUp(): void
+    public function testItSpuriouslyReportsMutantAsKilledWithPsalmBaseline(): void
     {
-        $process = new Process(['composer', 'install']);
+        $process = new Process([__DIR__ . '/../../../../bin/roave-infection-static-analysis-plugin']);
         $process->setWorkingDirectory(__DIR__ . '/../../../asset/ProjectWithPsalmBaseline');
 
         $process->mustRun();
-    }
-
-    public function testItSpuriouslyReportsMutantAsKilledWithPsalmBaseline(): void
-    {
-        $process = new Process([__DIR__ . '/../../../asset/ProjectWithPsalmBaseline/vendor/bin/roave-infection-static-analysis-plugin']);
-        $process->setWorkingDirectory(__DIR__ . '/../../../asset/ProjectWithPsalmBaseline');
-
-        $process->run();
 
         $output = $process->getOutput();
 
