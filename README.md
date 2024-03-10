@@ -25,6 +25,11 @@ composer require --dev roave/infection-static-analysis-plugin
 vendor/bin/roave-infection-static-analysis-plugin
 ```
 
+Do not use this tool if your project has a
+[Psalm baseline](https://psalm.dev/docs/running_psalm/dealing_with_code_issues/#using-a-baseline-file) file. In that
+case issues that are ignored due to being present in the baseline will be reported as killed, spuriously inflating your
+mutation score indicator. See [issue #484](https://github.com/Roave/infection-static-analysis-plugin/issues/484).
+
 ### Configuration
 
 The `roave-infection-static-analysis-plugin` binary accepts all of `infection` flags and arguments, and an additional `--psalm-config` argument.

@@ -31,7 +31,10 @@
     "autoload-dev": {
         "psr-4": {
             "Roave\\InfectionStaticAnalysisTest\\": "test/unit/Roave/InfectionStaticAnalysisTest"
-        }
+        },
+        "classmap": [
+            "test/asset/ProjectWithPsalmBaseline/src/HelloWorld.php"
+        ]
     },
     "config": {
         "allow-plugins": {

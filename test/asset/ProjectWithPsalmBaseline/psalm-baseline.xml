@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="5.16.0@2897ba636551a8cb61601cc26f6ccfbba6c36591">
+  <file src="src/HelloWorld.php">
+    <MissingParamType>
+      <code>$mixture</code>
+    </MissingParamType>
+    <MixedInferredReturnType>
+      <code>int</code>
+    </MixedInferredReturnType>
+    <MixedOperand>
+      <code>$mixture</code>
+    </MixedOperand>
+    <MixedReturnStatement>
+      <code>$mixture + 2</code>
+    </MixedReturnStatement>
+  </file>
+</files>

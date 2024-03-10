@@ -13,6 +13,7 @@
 
     <file>src</file>
     <file>test</file>
+    <exclude-pattern>test/asset/ProjectWithPsalmBaseline</exclude-pattern>
 
     <rule ref="Doctrine">
         <!-- properties in psalm config do not use camel-case naming -->
