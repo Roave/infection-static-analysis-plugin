@@ -30,9 +30,9 @@ use function var_export;
 (static function (): void {
     $projectPath = (static function () : string {
         $projectDirectoryCandidates = [
-            'current-working-directory'        => getcwd(),
-            'installed-as-composer-dependency' => __DIR__ . '/../../..',
+            'installed-as-composer-dependency' => __DIR__ . '/../../../..',
             'installed-as-project'             => __DIR__ . '/..',
+            'current-working-directory'        => getcwd(),
         ];
 
         foreach ($projectDirectoryCandidates as $candidatePath) {
