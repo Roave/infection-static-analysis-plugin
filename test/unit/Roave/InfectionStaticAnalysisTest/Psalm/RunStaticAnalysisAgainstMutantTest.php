@@ -180,6 +180,16 @@ function add(int $a, int $b): int {
 }
 PHP,
         )));
+
+        self::assertStringContainsString(
+            "InvalidReturnStatement: The inferred type 'int<min, max>' does not match the declared return type 'int<1, max>' for add",
+            $this->runStaticAnalysis->formatLastIssues(),
+        );
+
+        self::assertStringContainsString(
+            "InvalidReturnType: The declared return type 'int<1, max>' for add is incorrect, got 'int<min, max>'",
+            $this->runStaticAnalysis->formatLastIssues(),
+        );
     }
 
     public function testWillConsiderMutantReferencingProjectFilesAsValid(): void

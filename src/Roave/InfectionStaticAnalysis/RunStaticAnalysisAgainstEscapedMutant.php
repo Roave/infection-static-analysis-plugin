@@ -52,8 +52,8 @@ class RunStaticAnalysisAgainstEscapedMutant extends MutantExecutionResultFactory
         assert(is_int($originalEndFilePosition));
 
         return new MutantExecutionResult(
-            $result->getProcessCommandLine(),
-            $result->getProcessOutput(),
+            'Static Analysis',
+            $this->runStaticAnalysis->formatLastIssues(),
             DetectionStatus::KILLED, // Mutant was squished by static analysis
             later(static fn () => yield $result->getMutantDiff()),
             $result->getMutantHash(),

@@ -103,9 +103,13 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
             ->method('isMutantStillValidAccordingToStaticAnalysis')
             ->willReturn(false);
 
+        $this->staticAnalysis->expects(self::any())
+            ->method('formatLastIssues')
+            ->willReturn('formatted Psalm issues');
+
         $nextFactoryResult = new MutantExecutionResult(
             'echo hi',
-            'output',
+            'formatted Psalm issues',
             DetectionStatus::ESCAPED,
             now('diff'),
             'a-hash',
@@ -136,7 +140,7 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
         self::assertEquals($nextFactoryResult->getMutantDiff(), $result->getMutantDiff());
         self::assertEquals($nextFactoryResult->getMutantHash(), $result->getMutantHash());
         self::assertEquals($nextFactoryResult->getProcessOutput(), $result->getProcessOutput());
-        self::assertEquals($nextFactoryResult->getProcessCommandLine(), $result->getProcessCommandLine());
+        self::assertEquals('Static Analysis', $result->getProcessCommandLine());
         self::assertSame(DetectionStatus::KILLED, $result->getDetectionStatus());
 
         $reflectionOriginalStartFileLocation = new ReflectionProperty(MutantExecutionResult::class, 'originalStartFilePosition');
