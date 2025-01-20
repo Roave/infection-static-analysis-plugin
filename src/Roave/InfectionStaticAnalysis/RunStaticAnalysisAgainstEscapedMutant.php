@@ -25,6 +25,9 @@ class RunStaticAnalysisAgainstEscapedMutant extends MutantExecutionResultFactory
     private ReflectionProperty $reflectionOriginalStartFileLocation;
     private ReflectionProperty $reflectionOriginalEndFilePosition;
 
+    /**
+     * @psalm-suppress ParamNameMismatch
+     */
     public function __construct(
         private MutantExecutionResultFactory $next,
         private RunStaticAnalysisAgainstMutant $runStaticAnalysis,
