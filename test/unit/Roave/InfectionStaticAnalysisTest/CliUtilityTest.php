@@ -19,6 +19,8 @@ final class CliUtilityTest extends TestCase
      * @param non-empty-string|null  $expectedArgumentValue
      * @param list<non-empty-string> $arguments
      * @param non-empty-string       $argument
+     *
+     * @dataProvider provideExtractionData
      */
     #[DataProvider('provideExtractionData')]
     public function testExtractArgument(
@@ -128,6 +130,8 @@ final class CliUtilityTest extends TestCase
     /**
      * @param list<non-empty-string> $arguments
      * @param non-empty-string       $argument
+     *
+     * @dataProvider provideExtractionMissingValueData
      */
     #[DataProvider('provideExtractionMissingValueData')]
     public function testExtractArgumentThrowsForMissingValue(
