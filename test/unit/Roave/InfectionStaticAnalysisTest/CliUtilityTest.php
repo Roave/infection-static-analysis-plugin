@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Roave\InfectionStaticAnalysisTest;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Roave\InfectionStaticAnalysis\CliUtility;
 use RuntimeException;
@@ -18,9 +19,8 @@ final class CliUtilityTest extends TestCase
      * @param non-empty-string|null  $expectedArgumentValue
      * @param list<non-empty-string> $arguments
      * @param non-empty-string       $argument
-     *
-     * @dataProvider provideExtractionData
      */
+    #[DataProvider('provideExtractionData')]
     public function testExtractArgument(
         array $expectedNewArguments,
         string|null $expectedArgumentValue,
@@ -128,9 +128,8 @@ final class CliUtilityTest extends TestCase
     /**
      * @param list<non-empty-string> $arguments
      * @param non-empty-string       $argument
-     *
-     * @dataProvider provideExtractionMissingValueData
      */
+    #[DataProvider('provideExtractionMissingValueData')]
     public function testExtractArgumentThrowsForMissingValue(
         array $arguments,
         string $argument,
