@@ -10,6 +10,8 @@ use Infection\Mutant\MutantExecutionResult;
 use Infection\Mutant\MutantExecutionResultFactory;
 use Infection\Mutation\Mutation;
 use Infection\Mutation\MutationAttributeKeys;
+use Infection\Mutator\Arithmetic\AssignmentEqual;
+use Infection\Mutator\Arithmetic\Plus;
 use Infection\PhpParser\MutatedNode;
 use Infection\Process\MutantProcess;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -43,7 +45,8 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
             new Mutation(
                 'foo',
                 [],
-                'Plus',
+                Plus::class,
+                'test-mutator',
                 array_combine(
                     MutationAttributeKeys::ALL,
                     array_map('strlen', MutationAttributeKeys::ALL),
@@ -75,7 +78,8 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
             DetectionStatus::KILLED,
             now('diff'),
             'a-hash',
-            'AssignmentEqual',
+            AssignmentEqual::class,
+            'mutator-name',
             '/tmp/my-file',
             1,
             10,
@@ -109,7 +113,8 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
             DetectionStatus::ESCAPED,
             now('diff'),
             'a-hash',
-            'AssignmentEqual',
+            AssignmentEqual::class,
+            'mutator-name',
             '/tmp/my-file',
             1,
             10,
@@ -158,7 +163,8 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
             DetectionStatus::ESCAPED,
             now('diff'),
             'a-hash',
-            'AssignmentEqual',
+            AssignmentEqual::class,
+            'mutator-name',
             '/tmp/my-file',
             1,
             10,

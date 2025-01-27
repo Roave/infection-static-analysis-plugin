@@ -8,6 +8,7 @@ use Composer\InstalledVersions;
 use Infection\Mutant\Mutant;
 use Infection\Mutation\Mutation;
 use Infection\Mutation\MutationAttributeKeys;
+use Infection\Mutator\Arithmetic\Plus;
 use Infection\PhpParser\MutatedNode;
 use PHPUnit\Framework\TestCase;
 use Psalm\Config;
@@ -21,18 +22,16 @@ use Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant;
 
 use function array_combine;
 use function array_map;
-use function assert;
 use function copy;
 use function define;
 use function defined;
 use function file_put_contents;
-use function is_string;
 use function Later\now;
 use function mkdir;
-use function realpath;
+use function Psl\Filesystem\canonicalize;
+use function Psl\Filesystem\create_temporary_file;
+use function Psl\Type\non_empty_string;
 use function rmdir;
-use function sys_get_temp_dir;
-use function tempnam;
 use function unlink;
 
 /** @covers \Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant */
@@ -95,12 +94,12 @@ PHP;
 <?php class DeclaredClassSymbol {}
 PHP;
 
-        $validCodePath                         = tempnam(sys_get_temp_dir(), 'valid-code-');
-        $invalidCodePath                       = tempnam(sys_get_temp_dir(), 'invalid-code-');
-        $validCodeReferencingProjectFilesPath  = tempnam(sys_get_temp_dir(), 'valid-code-referencing-project-files-');
-        $validCodeReferencingReflectionApiPath = tempnam(sys_get_temp_dir(), 'valid-code-referencing-reflection-api-');
-        $declaredClassSymbolPath               = tempnam(sys_get_temp_dir(), 'declared-class-symbol-');
-        $repeatedDeclaredClassSymbolPath       = tempnam(sys_get_temp_dir(), 'repeated-declared-class-symbol-');
+        $validCodePath                         = create_temporary_file(null, 'valid-code-');
+        $invalidCodePath                       = create_temporary_file(null, 'invalid-code-');
+        $validCodeReferencingProjectFilesPath  = create_temporary_file(null, 'valid-code-referencing-project-files-');
+        $validCodeReferencingReflectionApiPath = create_temporary_file(null, 'valid-code-referencing-reflection-api-');
+        $declaredClassSymbolPath               = create_temporary_file(null, 'declared-class-symbol-');
+        $repeatedDeclaredClassSymbolPath       = create_temporary_file(null, 'repeated-declared-class-symbol-');
 
         file_put_contents($validCodePath, $validCode);
         file_put_contents($invalidCodePath, $invalidCode);
@@ -249,7 +248,9 @@ final class ArrayFilter {
     function makeAList(): int { return 1; }
 }
 PHP,
-            realpath(__DIR__ . '/../../../../../src/Roave/InfectionStaticAnalysis/Stub/ArrayFilter.php'),
+            non_empty_string()->assert(canonicalize(
+                __DIR__ . '/../../../../../src/Roave/InfectionStaticAnalysis/Stub/ArrayFilter.php',
+            )),
         );
 
         self::assertTrue(
@@ -357,7 +358,7 @@ PHP,
     /** @see https://github.com/vimeo/psalm/issues/5764#issuecomment-842687795 */
     public function testStubPreloadingHappensOnlyOnce(): void
     {
-        $mutableProject = tempnam(sys_get_temp_dir(), 'mutable-project-stub-');
+        $mutableProject = create_temporary_file(null, 'mutable-project-stub-');
 
         unlink($mutableProject);
         mkdir($mutableProject);
@@ -396,13 +397,13 @@ PHP,
         rmdir($mutableProject);
     }
 
+    /** @param non-empty-string $pathPrefix */
     private function makeMutant(
         string $pathPrefix,
         string $mutatedCode,
         string $originalFilePath = 'irrelevant',
     ): Mutant {
-        $mutatedCodePath = tempnam(sys_get_temp_dir(), $pathPrefix);
-        assert(is_string($mutatedCodePath));
+        $mutatedCodePath = create_temporary_file(null, $pathPrefix);
         file_put_contents($mutatedCodePath, $mutatedCode);
 
         $this->generatedMutantFiles[] = $mutatedCodePath;
@@ -412,7 +413,8 @@ PHP,
             new Mutation(
                 $originalFilePath,
                 [],
-                'Plus',
+                Plus::class,
+                'test-mutator',
                 array_combine(
                     MutationAttributeKeys::ALL,
                     array_map('strlen', MutationAttributeKeys::ALL),
