@@ -34,9 +34,6 @@ class RunStaticAnalysisAgainstMutant
                 ->getOriginalFilePath(),
         );
 
-        $codebase->addFilesToAnalyze([$path => $path]);
-        $codebase->scanFiles();
-
         if (! $this->alreadyVisitedStubs) {
             $codebase->config->visitPreloadedStubFiles($codebase);
             $codebase->config->visitStubFiles($codebase);
