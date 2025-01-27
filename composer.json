@@ -22,7 +22,7 @@
     "require-dev": {
         "azjezz/psl": "^3.2",
         "doctrine/coding-standard": "^12.0.0",
-        "phpunit/phpunit": "^10.5.15",
+        "phpunit/phpunit": "^10.5.41",
         "psalm/plugin-phpunit": "^0.19.2"
     },
     "autoload": {
