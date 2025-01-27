@@ -25,6 +25,7 @@ class RunStaticAnalysisAgainstEscapedMutant extends MutantExecutionResultFactory
     private ReflectionProperty $reflectionOriginalStartFileLocation;
     private ReflectionProperty $reflectionOriginalEndFilePosition;
 
+    /** @psalm-suppress ParamNameMismatch */
     public function __construct(
         private MutantExecutionResultFactory $next,
         private RunStaticAnalysisAgainstMutant $runStaticAnalysis,
@@ -57,6 +58,7 @@ class RunStaticAnalysisAgainstEscapedMutant extends MutantExecutionResultFactory
             DetectionStatus::KILLED, // Mutant was squished by static analysis
             later(static fn () => yield $result->getMutantDiff()),
             $result->getMutantHash(),
+            $result->getMutatorClass(),
             $result->getMutatorName(),
             $result->getOriginalFilePath(),
             $result->getOriginalStartingLine(),
