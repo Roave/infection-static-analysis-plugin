@@ -17,7 +17,7 @@
         "composer-runtime-api": "^2.2",
         "infection/infection": "0.29.11",
         "sanmai/later": "^0.1.4",
-        "vimeo/psalm": "^6.6.0"
+        "vimeo/psalm": "^6.6.1"
     },
     "require-dev": {
         "azjezz/psl": "^3.2",
