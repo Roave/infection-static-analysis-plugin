@@ -15,14 +15,14 @@
     "require": {
         "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
         "composer-runtime-api": "^2.2",
-        "infection/infection": "0.29.11",
+        "infection/infection": "0.29.12",
         "sanmai/later": "^0.1.4",
-        "vimeo/psalm": "^6.6.1"
+        "vimeo/psalm": "^6.8.8"
     },
     "require-dev": {
         "azjezz/psl": "^3.2",
         "doctrine/coding-standard": "^12.0.0",
-        "phpunit/phpunit": "^11.5.7",
+        "phpunit/phpunit": "^11.5.10",
         "psalm/plugin-phpunit": "^0.19.2"
     },
     "autoload": {
