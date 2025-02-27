@@ -16,7 +16,7 @@ final class Bootstrapper
         Container $container,
         RunStaticAnalysisAgainstMutant $runStaticAnalysis,
     ): Container {
-        $reflectionOffsetSet = (new ReflectionMethod(Container::class, 'offsetSet'));
+        $reflectionOffsetSet = new ReflectionMethod(Container::class, 'offsetSet');
 
         $factory = static function (Container $container) use ($runStaticAnalysis): MutantExecutionResultFactory {
             return new RunStaticAnalysisAgainstEscapedMutant(
