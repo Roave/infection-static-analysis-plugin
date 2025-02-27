@@ -17,6 +17,8 @@
     </projectFiles>
 
     <issueHandlers>
+        <!-- the #[\Override] annotation is 99.9% useless noise, and we won't waste time with it -->
+        <MissingOverrideAttribute errorLevel="suppress"/>
         <!--
         we do a loooooooot of kinky stuff with infection's internals: that's by "design",
         but no way around it for now.
