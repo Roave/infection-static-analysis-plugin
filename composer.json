@@ -17,7 +17,7 @@
         "composer-runtime-api": "^2.2",
         "infection/infection": "0.29.14",
         "sanmai/later": "^0.1.4",
-        "vimeo/psalm": "^6.8.9"
+        "vimeo/psalm": "^6.9.1"
     },
     "conflict": {
         "symfony/polyfill-php84": "<1.30.0"
