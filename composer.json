@@ -16,7 +16,7 @@
         "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
         "composer-runtime-api": "^2.2",
         "infection/infection": "0.29.14",
-        "sanmai/later": "^0.1.5",
+        "sanmai/later": "^0.1.6",
         "vimeo/psalm": "^6.10.3"
     },
     "conflict": {
