@@ -24,7 +24,7 @@
     },
     "require-dev": {
         "azjezz/psl": "^3.3.0",
-        "doctrine/coding-standard": "^13.0.1",
+        "doctrine/coding-standard": "^14.0.0",
         "phpunit/phpunit": "^11.5.34",
         "psalm/plugin-phpunit": "^0.19.5"
     },
