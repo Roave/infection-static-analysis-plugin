@@ -5,16 +5,15 @@ declare(strict_types=1);
 namespace Roave\InfectionStaticAnalysisTest;
 
 use Infection\Container;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Roave\InfectionStaticAnalysis\Bootstrapper;
 use Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant;
 use Roave\InfectionStaticAnalysis\RunStaticAnalysisAgainstEscapedMutant;
 
-/**
- * @uses \Roave\InfectionStaticAnalysis\RunStaticAnalysisAgainstEscapedMutant
- *
- * @covers \Roave\InfectionStaticAnalysis\Bootstrapper
- */
+#[CoversClass(Bootstrapper::class)]
+#[UsesClass(RunStaticAnalysisAgainstEscapedMutant::class)]
 final class BootstrapperTest extends TestCase
 {
     public function testWillNotTestAnything(): void

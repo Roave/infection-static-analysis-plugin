@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Roave\InfectionStaticAnalysisTest;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Roave\InfectionStaticAnalysis\CliUtility;
@@ -11,7 +12,7 @@ use RuntimeException;
 
 use function sprintf;
 
-/** @covers \Roave\InfectionStaticAnalysis\CliUtility */
+#[CoversClass(CliUtility::class)]
 final class CliUtilityTest extends TestCase
 {
     /**
