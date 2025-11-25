@@ -13,9 +13,9 @@
         "bin/roave-infection-static-analysis-plugin"
     ],
     "require": {
-        "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+        "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
         "composer-runtime-api": "^2.2",
-        "infection/infection": "0.29.14",
+        "infection/infection": "0.31.9",
         "sanmai/later": "^0.1.7",
         "vimeo/psalm": "^6.13.1"
     },
@@ -25,7 +25,7 @@
     "require-dev": {
         "azjezz/psl": "^3.3.0",
         "doctrine/coding-standard": "^14.0.0",
-        "phpunit/phpunit": "^11.5.34",
+        "phpunit/phpunit": "^11.5.44",
         "psalm/plugin-phpunit": "^0.19.5"
     },
     "autoload": {
