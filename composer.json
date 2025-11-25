@@ -23,7 +23,7 @@
         "symfony/polyfill-php84": "<1.30.0"
     },
     "require-dev": {
-        "azjezz/psl": "^3.3.0",
+        "azjezz/psl": "^4.2.0",
         "doctrine/coding-standard": "^14.0.0",
         "phpunit/phpunit": "^11.5.44",
         "psalm/plugin-phpunit": "^0.19.5"
