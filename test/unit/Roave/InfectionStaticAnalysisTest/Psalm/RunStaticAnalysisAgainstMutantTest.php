@@ -10,6 +10,7 @@ use Infection\Mutation\Mutation;
 use Infection\Mutation\MutationAttributeKeys;
 use Infection\Mutator\Arithmetic\Plus;
 use Infection\PhpParser\MutatedNode;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psalm\Config;
 use Psalm\Internal\Analyzer\ProjectAnalyzer;
@@ -34,7 +35,7 @@ use function Psl\Type\non_empty_string;
 use function rmdir;
 use function unlink;
 
-/** @covers \Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant */
+#[CoversClass(RunStaticAnalysisAgainstMutant::class)]
 final class RunStaticAnalysisAgainstMutantTest extends TestCase
 {
     private const string PSALM_WORKING_DIRECTORY = __DIR__ . '/../../../../..';

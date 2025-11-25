@@ -14,6 +14,7 @@ use Infection\Mutator\Arithmetic\AssignmentEqual;
 use Infection\Mutator\Arithmetic\Plus;
 use Infection\PhpParser\MutatedNode;
 use Infection\Process\MutantProcess;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
@@ -25,7 +26,7 @@ use function array_combine;
 use function array_map;
 use function Later\now;
 
-/** @covers \Roave\InfectionStaticAnalysis\RunStaticAnalysisAgainstEscapedMutant */
+#[CoversClass(RunStaticAnalysisAgainstEscapedMutant::class)]
 final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
 {
     private MutantProcess $process;
