@@ -6,6 +6,7 @@ namespace Roave\InfectionStaticAnalysis;
 
 use Infection\Container;
 use Infection\Mutant\MutantExecutionResultFactory;
+use Infection\Mutant\TestFrameworkMutantExecutionResultFactory;
 use ReflectionMethod;
 use Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant;
 
@@ -20,12 +21,12 @@ final class Bootstrapper
 
         $factory = static function (Container $container) use ($runStaticAnalysis): MutantExecutionResultFactory {
             return new RunStaticAnalysisAgainstEscapedMutant(
-                new MutantExecutionResultFactory($container->getTestFrameworkAdapter()),
+                new TestFrameworkMutantExecutionResultFactory($container->getTestFrameworkAdapter()),
                 $runStaticAnalysis,
             );
         };
 
-        $reflectionOffsetSet->invokeArgs($container, [MutantExecutionResultFactory::class, $factory]);
+        $reflectionOffsetSet->invokeArgs($container, [TestFrameworkMutantExecutionResultFactory::class, $factory]);
 
         return $container;
     }

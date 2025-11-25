@@ -7,6 +7,7 @@ namespace Roave\InfectionStaticAnalysis;
 use Infection\Mutant\DetectionStatus;
 use Infection\Mutant\MutantExecutionResult;
 use Infection\Mutant\MutantExecutionResultFactory;
+use Infection\Mutant\TestFrameworkMutantExecutionResultFactory;
 use Infection\Process\MutantProcess;
 use ReflectionProperty;
 use Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant;
@@ -18,14 +19,22 @@ use function Later\later;
 /**
  * @internal
  *
- * @final not explicitly final because there is no interface for {@see MutantExecutionResultFactory}
+ * @final not explicitly final because Infection internals don't yet type-hint
+ *        against the {@see MutantExecutionResultFactory} interface
  */
-class RunStaticAnalysisAgainstEscapedMutant extends MutantExecutionResultFactory
+class RunStaticAnalysisAgainstEscapedMutant extends TestFrameworkMutantExecutionResultFactory implements MutantExecutionResultFactory
 {
     private ReflectionProperty $reflectionOriginalStartFileLocation;
     private ReflectionProperty $reflectionOriginalEndFilePosition;
 
-    /** @psalm-suppress ParamNameMismatch */
+    /**
+     * Note: suppressions are because we are completely overriding the parent class, since `implements` is not sufficient
+     *
+     * @psalm-suppress ConstructorSignatureMismatch
+     * @psalm-suppress ImplementedParamTypeMismatch
+     * @psalm-suppress ParamNameMismatch
+     * @psalm-suppress MethodSignatureMismatch
+     */
     public function __construct(
         private MutantExecutionResultFactory $next,
         private RunStaticAnalysisAgainstMutant $runStaticAnalysis,
@@ -34,6 +43,11 @@ class RunStaticAnalysisAgainstEscapedMutant extends MutantExecutionResultFactory
         $this->reflectionOriginalEndFilePosition   = new ReflectionProperty(MutantExecutionResult::class, 'originalEndFilePosition');
     }
 
+    /**
+     * Note: suppressions are because we are completely overriding the parent class, since `implements` is not sufficient
+     *
+     * @psalm-suppress MethodSignatureMismatch
+     */
     public function createFromProcess(MutantProcess $mutantProcess): MutantExecutionResult
     {
         $result = $this->next->createFromProcess($mutantProcess);
@@ -55,7 +69,7 @@ class RunStaticAnalysisAgainstEscapedMutant extends MutantExecutionResultFactory
         return new MutantExecutionResult(
             $result->getProcessCommandLine(),
             $result->getProcessOutput(),
-            DetectionStatus::KILLED, // Mutant was squished by static analysis
+            DetectionStatus::KILLED_BY_STATIC_ANALYSIS,
             later(static fn () => yield $result->getMutantDiff()),
             $result->getMutantHash(),
             $result->getMutatorClass(),
@@ -68,6 +82,7 @@ class RunStaticAnalysisAgainstEscapedMutant extends MutantExecutionResultFactory
             later(static fn () => yield $result->getOriginalCode()),
             later(static fn () => yield $result->getMutatedCode()),
             $result->getTests(),
+            $result->getProcessRuntime(),
         );
     }
 }
