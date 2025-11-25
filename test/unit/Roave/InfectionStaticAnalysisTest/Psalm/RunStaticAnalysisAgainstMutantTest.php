@@ -37,7 +37,7 @@ use function unlink;
 /** @covers \Roave\InfectionStaticAnalysis\Psalm\RunStaticAnalysisAgainstMutant */
 final class RunStaticAnalysisAgainstMutantTest extends TestCase
 {
-    private const PSALM_WORKING_DIRECTORY = __DIR__ . '/../../../../..';
+    private const string PSALM_WORKING_DIRECTORY = __DIR__ . '/../../../../..';
     private RunStaticAnalysisAgainstMutant $runStaticAnalysis;
 
     /** @var list<string> */
