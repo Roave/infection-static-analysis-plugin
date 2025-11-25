@@ -30,26 +30,5 @@
         some symbols.
         -->
         <InvalidExtendClass errorLevel="suppress"/>
-
-        <MethodSignatureMismatch>
-            <errorLevel type="suppress">
-                <!-- some methods are considered "final" (via annotations), but we override them -->
-                <file name="src/Roave/InfectionStaticAnalysis/RunStaticAnalysisAgainstEscapedMutant.php"/>
-            </errorLevel>
-        </MethodSignatureMismatch>
-
-        <ConstructorSignatureMismatch>
-            <errorLevel type="suppress">
-                <!-- we extend some classes to be type-compatible, but override everything (including ctor) -->
-                <file name="src/Roave/InfectionStaticAnalysis/RunStaticAnalysisAgainstEscapedMutant.php"/>
-            </errorLevel>
-        </ConstructorSignatureMismatch>
-
-        <ImplementedParamTypeMismatch>
-            <errorLevel type="suppress">
-                <!-- we extend some classes to be type-compatible, but override everything -->
-                <file name="src/Roave/InfectionStaticAnalysis/RunStaticAnalysisAgainstEscapedMutant.php"/>
-            </errorLevel>
-        </ImplementedParamTypeMismatch>
     </issueHandlers>
 </psalm>

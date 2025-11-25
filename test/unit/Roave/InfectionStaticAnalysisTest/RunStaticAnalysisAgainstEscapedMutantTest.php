@@ -61,10 +61,10 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
             now(''),
         );
 
-        $this->process        = new MutantProcess(new Process(['echo', 'hi']), $this->mutant);
         $this->staticAnalysis = $this->createMock(RunStaticAnalysisAgainstMutant::class);
         $this->nextFactory    = $this->createMock(MutantExecutionResultFactory::class);
         $this->factory        = new RunStaticAnalysisAgainstEscapedMutant($this->nextFactory, $this->staticAnalysis);
+        $this->process        = new MutantProcess(new Process(['echo', 'hi']), $this->mutant, $this->factory);
     }
 
     public function testWillSkipValidationOnAlreadyKilledMutants(): void
@@ -75,7 +75,7 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
         $nextFactoryResult = new MutantExecutionResult(
             'echo hi',
             'output',
-            DetectionStatus::KILLED,
+            DetectionStatus::KILLED_BY_STATIC_ANALYSIS,
             now('diff'),
             'a-hash',
             AssignmentEqual::class,
@@ -88,6 +88,7 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
             now('code'),
             now('mutated code'),
             [],
+            0.0,
         );
 
         $this->nextFactory->expects(self::once())
@@ -98,7 +99,7 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
         $result = $this->factory->createFromProcess($this->process);
 
         self::assertEquals($nextFactoryResult, $result);
-        self::assertSame(DetectionStatus::KILLED, $result->getDetectionStatus());
+        self::assertSame(DetectionStatus::KILLED_BY_STATIC_ANALYSIS, $result->getDetectionStatus());
     }
 
     public function testWillKillMutantsThatEscapedAndFailedStaticAnalysis(): void
@@ -123,6 +124,7 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
             now('code'),
             now('mutated code'),
             [],
+            0.0,
         );
 
         $this->nextFactory->expects(self::once())
@@ -142,7 +144,7 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
         self::assertEquals($nextFactoryResult->getMutantHash(), $result->getMutantHash());
         self::assertEquals($nextFactoryResult->getProcessOutput(), $result->getProcessOutput());
         self::assertEquals($nextFactoryResult->getProcessCommandLine(), $result->getProcessCommandLine());
-        self::assertSame(DetectionStatus::KILLED, $result->getDetectionStatus());
+        self::assertSame(DetectionStatus::KILLED_BY_STATIC_ANALYSIS, $result->getDetectionStatus());
 
         $reflectionOriginalStartFileLocation = new ReflectionProperty(MutantExecutionResult::class, 'originalStartFilePosition');
         $reflectionOriginalEndFilePosition   = new ReflectionProperty(MutantExecutionResult::class, 'originalEndFilePosition');
@@ -173,6 +175,7 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
             now('code'),
             now('mutated code'),
             [],
+            0.0,
         );
 
         $this->nextFactory->expects(self::once())
