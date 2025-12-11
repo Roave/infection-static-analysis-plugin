@@ -66,7 +66,7 @@ jobs:
           ini-values: memory_limit=-1, zend.assertions=1
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v4"
+        uses: "actions/cache@v5"
         with:
           path: |
             ~/.composer/cache
