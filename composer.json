@@ -17,7 +17,7 @@
         "composer-runtime-api": "^2.2",
         "infection/infection": "0.31.9",
         "sanmai/later": "^0.1.7",
-        "vimeo/psalm": "^6.14.1"
+        "vimeo/psalm": "^6.14.2"
     },
     "conflict": {
         "symfony/polyfill-php84": "<1.30.0"
@@ -25,7 +25,7 @@
     "require-dev": {
         "azjezz/psl": "^4.2.0",
         "doctrine/coding-standard": "^14.0.0",
-        "phpunit/phpunit": "^12.5.2",
+        "phpunit/phpunit": "^12.5.3",
         "psalm/plugin-phpunit": "^0.19.5"
     },
     "autoload": {
