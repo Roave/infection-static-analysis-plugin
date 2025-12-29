@@ -18,7 +18,7 @@ final class BootstrapperTest extends TestCase
 {
     public function testWillNotTestAnything(): void
     {
-        $runStaticAnalysis = $this->createMock(RunStaticAnalysisAgainstMutant::class);
+        $runStaticAnalysis = $this->createStub(RunStaticAnalysisAgainstMutant::class);
         Bootstrapper::bootstrap(
             Container::create(),
             $runStaticAnalysis,

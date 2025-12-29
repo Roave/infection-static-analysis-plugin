@@ -33,6 +33,7 @@ use function Psl\Filesystem\canonicalize;
 use function Psl\Filesystem\create_temporary_file;
 use function Psl\Type\non_empty_string;
 use function rmdir;
+use function strlen;
 use function unlink;
 
 #[CoversClass(RunStaticAnalysisAgainstMutant::class)]
@@ -417,13 +418,15 @@ PHP,
                 Plus::class,
                 'test-mutator',
                 array_combine(
-                    MutationAttributeKeys::ALL,
-                    array_map('strlen', MutationAttributeKeys::ALL),
+                    array_map(static fn (MutationAttributeKeys $key): string => $key->value, MutationAttributeKeys::cases()),
+                    array_map(static fn (MutationAttributeKeys $key): int => strlen($key->value), MutationAttributeKeys::cases()),
                 ),
                 '',
                 MutatedNode::wrap([]),
                 0,
                 [],
+                [],
+                'original file content',
             ),
             now($mutatedCode),
             now(''),

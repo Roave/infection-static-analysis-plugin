@@ -25,6 +25,7 @@ use Symfony\Component\Process\Process;
 use function array_combine;
 use function array_map;
 use function Later\now;
+use function strlen;
 
 #[CoversClass(RunStaticAnalysisAgainstEscapedMutant::class)]
 final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
@@ -49,13 +50,15 @@ final class RunStaticAnalysisAgainstEscapedMutantTest extends TestCase
                 Plus::class,
                 'test-mutator',
                 array_combine(
-                    MutationAttributeKeys::ALL,
-                    array_map('strlen', MutationAttributeKeys::ALL),
+                    array_map(static fn (MutationAttributeKeys $key): string => $key->value, MutationAttributeKeys::cases()),
+                    array_map(static fn (MutationAttributeKeys $key): int => strlen($key->value), MutationAttributeKeys::cases()),
                 ),
                 '',
                 MutatedNode::wrap([]),
                 0,
                 [],
+                [],
+                'original file content',
             ),
             now('code'),
             now(''),
