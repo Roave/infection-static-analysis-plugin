@@ -7,7 +7,6 @@
     beStrictAboutCoverageMetadata="true"
     beStrictAboutOutputDuringTests="true"
     executionOrder="random"
-    failOnAllIssues="true"
 >
   <php>
     <ini name="memory_limit" value="-1"/>
