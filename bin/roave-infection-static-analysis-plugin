@@ -7,7 +7,7 @@ namespace Roave\InfectionStaticAnalysis\Application;
 
 use Composer\InstalledVersions;
 use Infection\Console\Application;
-use Infection\Container;
+use Infection\Container\Container;
 use Psalm\Config;
 use Psalm\Internal\Analyzer\ProjectAnalyzer;
 use Psalm\Internal\IncludeCollector;
