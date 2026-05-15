@@ -13,20 +13,21 @@
         "bin/roave-infection-static-analysis-plugin"
     ],
     "require": {
-        "php": "~8.3.0 || ~8.4.0 || ~8.5.0",
+        "php": "~8.4.0 || ~8.5.0",
         "composer-runtime-api": "^2.2",
-        "infection/infection": "0.32.0",
+        "infection/infection": "0.32.7",
         "sanmai/later": "^0.1.7",
-        "vimeo/psalm": "^6.14.3"
+        "vimeo/psalm": "^6.16.1"
     },
     "conflict": {
         "symfony/polyfill-php84": "<1.30.0"
     },
     "require-dev": {
-        "azjezz/psl": "^4.2.0",
         "doctrine/coding-standard": "^14.0.0",
-        "phpunit/phpunit": "^12.5.4",
-        "psalm/plugin-phpunit": "^0.19.5"
+        "php-standard-library/type": "^6.1.1",
+        "php-standard-library/filesystem": "^6.1.1",
+        "phpunit/phpunit": "^13.1.10",
+        "psalm/plugin-phpunit": "^0.19.7"
     },
     "autoload": {
         "psr-4": {
@@ -44,7 +45,7 @@
             "infection/extension-installer": false
         },
         "platform": {
-            "php": "8.3.99"
+            "php": "8.4.99"
         },
         "sort-packages": true
     }
