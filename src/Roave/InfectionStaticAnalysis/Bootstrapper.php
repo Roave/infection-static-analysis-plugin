@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Roave\InfectionStaticAnalysis;
 
-use Infection\Container;
+use Infection\Container\Container;
 use Infection\Mutant\MutantExecutionResultFactory;
 use Infection\Mutant\TestFrameworkMutantExecutionResultFactory;
 use ReflectionMethod;

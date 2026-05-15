@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Roave\InfectionStaticAnalysisTest;
 
-use Infection\Container;
+use Infection\Container\Container;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
