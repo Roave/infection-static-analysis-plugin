@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Gather CI configuration
         id: matrix
-        uses: laminas/laminas-ci-matrix-action@1.32.0
+        uses: laminas/laminas-ci-matrix-action@88c5cfdb863459ae01e3adec73d1dd4530983843 # 1.32.0
 
   qa:
     name: QA Checks
@@ -27,7 +27,7 @@ jobs:
       matrix: ${{ fromJSON(needs.matrix.outputs.matrix) }}
     steps:
       - name: ${{ matrix.name }}
-        uses: laminas/laminas-continuous-integration-action@1.43.0
+        uses: laminas/laminas-continuous-integration-action@5f4512e23ab587455e9f0a39e4616dad4550de4f # 1.43.0
         env:
           "GITHUB_TOKEN": ${{ secrets.GITHUB_TOKEN }}
           "INFECTION_DASHBOARD_API_KEY": ${{ secrets.INFECTION_DASHBOARD_API_KEY }}
@@ -55,17 +55,17 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v7"
+        uses: "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1" # v7
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.36.0"
+        uses: "shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1" # 2.36.0
         with:
           coverage: "xdebug"
           php-version: "${{ matrix.php-version }}"
           ini-values: memory_limit=-1, zend.assertions=1
 
       - name: "Cache dependencies"
-        uses: "actions/cache@v6"
+        uses: "actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9" # v6
         with:
           path: |
             ~/.composer/cache
