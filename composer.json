@@ -15,8 +15,8 @@
     "require": {
         "php": "~8.4.0 || ~8.5.0",
         "composer-runtime-api": "^2.2",
-        "infection/infection": "0.32.7",
-        "sanmai/later": "^0.1.7",
+        "infection/infection": "0.35.4",
+        "sanmai/later": "^0.1.8",
         "vimeo/psalm": "^6.16.1"
     },
     "conflict": {
@@ -25,9 +25,9 @@
     "require-dev": {
         "doctrine/coding-standard": "^14.0.0",
         "php-standard-library/type": "^6.1.1",
-        "php-standard-library/filesystem": "^6.1.1",
-        "phpunit/phpunit": "^13.1.10",
-        "psalm/plugin-phpunit": "^0.19.7"
+        "php-standard-library/filesystem": "^6.2.1",
+        "phpunit/phpunit": "^13.3.2",
+        "psalm/plugin-phpunit": "^0.20.2"
     },
     "autoload": {
         "psr-4": {
